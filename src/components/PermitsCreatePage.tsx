@@ -278,7 +278,7 @@ function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: strin
               animation:`chipIn 0.4s cubic-bezier(0.34,1.4,0.64,1) both`,
               animationDelay:`${idx*80}ms`,
               display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-              gap:14, width:190, minHeight:160,
+              gap:14, width:220, minWidth:220, minHeight:180, flexShrink:0,
               background: c.grad,
               border:'none',
               borderRadius:22, padding:'24px 16px',
@@ -303,7 +303,7 @@ function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: strin
 }
 
 
-/* ── Option cards (Import / Export / Sea / Air etc) — dark gradient style ── */
+/* ── Option cards (Import / Export / Sea / Air etc) — solid blue gradient style ── */
 function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any) => void }) {
   const [hov, setHov] = useState('');
   return (
@@ -311,8 +311,9 @@ function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any)
       {options.map((o, idx) => {
         const isH = hov === o.key;
         const darkBase = o.color;
-        const gradIdle = `linear-gradient(145deg, rgba(14,27,61,0.72) 0%, ${darkBase}cc 100%)`;
-        const gradHov  = `linear-gradient(145deg, rgba(22,32,64,0.82) 0%, ${darkBase}ee 100%)`;
+        const gradIdle = `linear-gradient(145deg, rgb(21,96,168) 0%, #0ea5e9 100%)`;
+        const gradHov  = `linear-gradient(145deg, rgb(28,110,185) 0%, #1ab8ff 100%)`;
+        const glow = `rgba(14,165,233,0.45)`;
         return (
           <button key={o.key} onClick={() => onSelect(o)}
             onMouseEnter={() => setHov(o.key)} onMouseLeave={() => setHov('')}
@@ -322,14 +323,13 @@ function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any)
               display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
               gap:10, flexShrink:0, width:144, minHeight:128,
               background: isH ? gradHov : gradIdle,
-              border:`1.5px solid ${isH ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.08)'}`,
+              border:'none',
               borderRadius:20, padding:'18px 12px',
               cursor:'pointer', transition:'all 0.22s cubic-bezier(0.34,1.4,0.64,1)',
-              backdropFilter: 'blur(12px)',
-              boxShadow: isH ? `0 8px 24px ${darkBase}44, 0 2px 8px rgba(0,0,0,0.18)` : `0 2px 12px rgba(0,0,0,0.12)`,
-              transform: isH ? 'translateY(-4px) scale(1.04)' : 'none',
+              boxShadow: isH ? `0 12px 32px ${glow}, 0 4px 12px ${glow}` : `0 4px 18px ${glow.replace('55','33')}`,
+              transform: isH ? 'translateY(-6px) scale(1.04)' : 'none',
             }}>
-            <div style={{ width:50, height:50, borderRadius:14, background:'rgba(255,255,255,0.12)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH ? '0 0 18px rgba(255,255,255,0.2)' : 'none' }}>
+            <div style={{ width:50, height:50, borderRadius:14, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH ? '0 0 20px rgba(255,255,255,0.2)' : 'none' }}>
               <div style={{ color:'#fff', filter:'brightness(10)' }}>{o.icon}</div>
             </div>
             <div style={{ textAlign:'center' }}>
@@ -343,19 +343,19 @@ function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any)
   );
 }
 
-/* ── Cargo chips — dark gradient, wrapping ── */
+/* ── Cargo chips — solid blue gradient, wrapping ── */
 function CargoCards({ onSelect }: { onSelect: (o: any) => void }) {
   const [hov, setHov] = useState('');
   return (
     <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
       {CARGO_OPTIONS.map((o, idx) => {
         const isH = hov === o.key;
-        const gradIdle = `linear-gradient(135deg, rgba(14,27,61,0.72) 0%, ${o.color}cc 100%)`;
-        const gradHov  = `linear-gradient(135deg, rgba(22,32,64,0.82) 0%, ${o.color}ee 100%)`;
+        const gradIdle = `linear-gradient(145deg, rgb(21,96,168) 0%, #0ea5e9 100%)`;
+        const gradHov  = `linear-gradient(145deg, rgb(28,110,185) 0%, #1ab8ff 100%)`;
         return (
           <button key={o.key} onClick={() => onSelect(o)}
             onMouseEnter={()=>setHov(o.key)} onMouseLeave={()=>setHov('')}
-            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*35}ms`, display:'inline-flex', alignItems:'center', gap:8, flexShrink:0, background: isH ? gradHov : gradIdle, backdropFilter:'blur(10px)', border:`1.5px solid ${isH?'rgba(255,255,255,0.3)':'rgba(255,255,255,0.15)'}`, borderRadius:22, padding:'9px 16px 9px 10px', cursor:'pointer', transition:'all 0.18s', boxShadow: isH?`0 6px 18px ${o.color}40`:`0 2px 8px rgba(0,0,0,0.1)`, transform: isH?'translateY(-3px) scale(1.02)':'none' }}>
+            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*35}ms`, display:'inline-flex', alignItems:'center', gap:8, flexShrink:0, background: isH ? gradHov : gradIdle, border:'none', borderRadius:22, padding:'9px 16px 9px 10px', cursor:'pointer', transition:'all 0.18s', boxShadow: isH?`0 6px 20px ${o.color}55`:`0 3px 12px ${o.color}33`, transform: isH?'translateY(-3px) scale(1.02)':'none' }}>
             <div style={{ width:28, height:28, borderRadius:8, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', filter:'brightness(10)' }}>{o.icon}</div>
             <span style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#fff', whiteSpace:'nowrap' }}>{o.label}</span>
           </button>
@@ -648,7 +648,7 @@ export default function PermitsCreatePage({ onClose }: Props) {
                       {[0,1,2].map(i => <div key={i} style={{ width:5, height:5, borderRadius:'50%', background:'#1360d2', animation:'dot 1.4s ease infinite', animationDelay:`${i*0.2}s` }} />)}
                     </div>
                   ) : (
-                    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:20, maxWidth:520, width:'100%' }}>
+                    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:20, maxWidth:700, width:'100%' }}>
                       <div style={{ background:'rgba(255,255,255,0.95)', border:'1px solid #eef0f6', borderRadius:'4px 20px 20px 20px', padding:'18px 28px', boxShadow:'0 2px 14px rgba(0,0,0,0.07)', textAlign:'center' }}>
                         <p style={{ fontFamily:font, fontSize:17, fontWeight:400, color:'#111838', margin:0, lineHeight:1.65 }}>{STEP_META.welcome.question}</p>
                       </div>

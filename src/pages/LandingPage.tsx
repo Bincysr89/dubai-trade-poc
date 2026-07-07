@@ -384,7 +384,7 @@ export default function LandingPage() {
                   key={card.step}
                   className="group flex flex-col items-center w-full sm:w-[200px] cursor-pointer"
                   onClick={() => {
-                    if (card.title === 'Integrated Clearance') setShowIntegratedClearance(true);
+                    if (card.title === 'Integrated Clearance') { setShowIntegratedClearance(false); setShowDeclarationList(true); }
                     if (card.title === 'Permits & Certificates') setShowPermits(true);
                   }}
                 >

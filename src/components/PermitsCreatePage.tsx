@@ -4,47 +4,44 @@ import { IntegratedClearanceIcon } from './AgentIcons';
 import seaIconSrc from '../assets/icon-sea.svg';
 import airIconSrc from '../assets/icon-air.svg';
 import truckIconSrc from '../assets/External Truck.svg';
-import shipIconSrc from '../assets/Ship (12).svg';
-import planeIconSrc from '../assets/Plane (5).svg';
 
 type Props = { onClose: () => void };
-
 const font = "'Dubai', sans-serif";
 
 /* ── Data ── */
 const TRADE_OPTIONS = [
-  { key: 'import',   label: 'Import',    desc: 'Bringing goods into Dubai',     color: '#1360d2', bg: '#eef4ff',
-    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>) },
-  { key: 'export',   label: 'Export',    desc: 'Sending goods out of Dubai',    color: '#0f7960', bg: '#edfaf5',
-    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21V8M7 13l5-5 5 5"/><path d="M5 4h14"/></svg>) },
-  { key: 'reexport', label: 'Re-Export', desc: 'Transit through Dubai',         color: '#7c3aed', bg: '#f4f0ff',
-    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 109-9H3"/><path d="M3 7v5h5"/></svg>) },
-  { key: 'transfer', label: 'Transfer',  desc: 'Between zones or ports',        color: '#b45309', bg: '#fff8ed',
-    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>) },
-  { key: 'other',    label: 'Other',     desc: 'Other trade activities',        color: '#697498', bg: '#f6f7fb',
-    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>) },
+  { key: 'import',   label: 'Import',    desc: 'Bringing goods into Dubai',    color: '#1360d2',
+    icon: (<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>) },
+  { key: 'export',   label: 'Export',    desc: 'Sending goods out of Dubai',   color: '#0e56c0',
+    icon: (<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21V8M7 13l5-5 5 5"/><path d="M5 4h14"/></svg>) },
+  { key: 'reexport', label: 'Re-Export', desc: 'Transit through Dubai',        color: '#1670e0',
+    icon: (<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 109-9H3"/><path d="M3 7v5h5"/></svg>) },
+  { key: 'transfer', label: 'Transfer',  desc: 'Between zones or ports',       color: '#0e4cad',
+    icon: (<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>) },
+  { key: 'other',    label: 'Other',     desc: 'Other trade activities',       color: '#2a6dcc',
+    icon: (<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>) },
 ];
 
 const MODE_OPTIONS = [
-  { key: 'sea',  label: 'Sea',  desc: 'Vessel / container',   color: '#0369a1', bg: '#eff8ff',
-    icon: (<img src={seaIconSrc}   alt="Sea"   width={30} height={30} style={{ objectFit: 'contain' }} />) },
-  { key: 'air',  label: 'Air',  desc: 'Aircraft / airfreight',color: '#7c3aed', bg: '#f4f0ff',
-    icon: (<img src={airIconSrc}   alt="Air"   width={30} height={30} style={{ objectFit: 'contain' }} />) },
-  { key: 'land', label: 'Land', desc: 'Truck / road transport',color: '#b45309', bg: '#fff8ed',
-    icon: (<img src={truckIconSrc} alt="Land"  width={30} height={30} style={{ objectFit: 'contain' }} />) },
-  { key: 'rail', label: 'Rail', desc: 'Train / railway',       color: '#0f7960', bg: '#edfaf5',
-    icon: (<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M12 3v8M8 17l-2 3m10-3l2 3"/></svg>) },
+  { key: 'sea',  label: 'Sea',  desc: 'Vessel / container',    color: '#0e5fa8',
+    icon: (<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l2.5-7h13L21 17"/><path d="M3 17c2 2 4 3 9 3s7-1 9-3"/><path d="M8 10V6l4-2 4 2v4"/><path d="M12 4v2"/></svg>) },
+  { key: 'air',  label: 'Air',  desc: 'Aircraft / airfreight', color: '#1a4ea8',
+    icon: (<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>) },
+  { key: 'land', label: 'Land', desc: 'Truck / road transport',color: '#1458a8',
+    icon: (<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>) },
+  { key: 'rail', label: 'Rail', desc: 'Train / railway',       color: '#0e4d99',
+    icon: (<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 11h16M12 3v8M8 17l-2 3m10-3l2 3"/></svg>) },
 ];
 
 const CARGO_OPTIONS = [
-  { key: 'food',      label: 'Food Consignment',       color: '#0f7960', bg: '#edfaf5', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>) },
-  { key: 'vet',       label: 'Veterinary Consignments',color: '#0369a1', bg: '#eff8ff', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>) },
-  { key: 'consumer',  label: 'Consumer Goods',         color: '#7c3aed', bg: '#f4f0ff', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>) },
-  { key: 'firearms',  label: 'Fire Arms',              color: '#c0392b', bg: '#fff0ef', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12h16M4 12l3-3m-3 3l3 3m10-3v3l2 2"/></svg>) },
-  { key: 'chemicals', label: 'Chemicals & Hazardous',  color: '#b45309', bg: '#fff8ed', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6v11l3.5 6H5.5L9 14V3z"/><line x1="9" y1="3" x2="15" y2="3"/></svg>) },
-  { key: 'livestock', label: 'Live Animals',           color: '#0f7960', bg: '#edfaf5', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M8 12c-4 1-6 4-6 6h20c0-2-2-5-6-6"/></svg>) },
-  { key: 'pharma',    label: 'Pharmaceuticals',        color: '#7c3aed', bg: '#f4f0ff', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>) },
-  { key: 'other',     label: 'Other Goods',            color: '#697498', bg: '#f6f7fb', icon: (<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>) },
+  { key: 'food',      label: 'Food Consignment',        color: '#1360d2', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>) },
+  { key: 'vet',       label: 'Veterinary Consignments', color: '#0e56c0', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>) },
+  { key: 'consumer',  label: 'Consumer Goods',          color: '#1670e0', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>) },
+  { key: 'firearms',  label: 'Fire Arms',               color: '#0e4cad', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12h16M4 12l3-3m-3 3l3 3m10-3v3l2 2"/></svg>) },
+  { key: 'chemicals', label: 'Chemicals & Hazardous',   color: '#1565d4', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6v11l3.5 6H5.5L9 14V3z"/><line x1="9" y1="3" x2="15" y2="3"/></svg>) },
+  { key: 'livestock', label: 'Live Animals',            color: '#0e60cb', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M8 12c-4 1-6 4-6 6h20c0-2-2-5-6-6"/></svg>) },
+  { key: 'pharma',    label: 'Pharmaceuticals',         color: '#1878ea', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>) },
+  { key: 'other',     label: 'Other Goods',             color: '#2a6dcc', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>) },
 ];
 
 const PERMITS_MAP: Record<string, { label: string; authority: string }[]> = {
@@ -86,97 +83,310 @@ const PERMITS_MAP: Record<string, { label: string; authority: string }[]> = {
   ],
 };
 
-/* ── Mock frequent-use history (would come from API in production) ── */
 const FREQUENT_COMBOS = [
-  { activity: 'Import', mode: 'Sea',  cargo: 'Food Consignment',       count: 14, lastUsed: '3 days ago' },
-  { activity: 'Export', mode: 'Air',  cargo: 'Pharmaceuticals',        count: 7,  lastUsed: '2 weeks ago' },
-  { activity: 'Import', mode: 'Air',  cargo: 'Consumer Goods',         count: 3,  lastUsed: '1 month ago' },
+  { activity: 'Import', mode: 'Sea',  cargo: 'Food Consignment',  count: 14, lastUsed: '3 days ago' },
+  { activity: 'Export', mode: 'Air',  cargo: 'Pharmaceuticals',   count: 7,  lastUsed: '2 weeks ago' },
+  { activity: 'Import', mode: 'Air',  cargo: 'Consumer Goods',    count: 3,  lastUsed: '1 month ago' },
 ];
 
-/* ── Authority color map ── */
 const AUTHORITY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   'Dubai Municipality': { bg: '#e8f5ee', text: '#1a7a45', border: '#b6dfc8' },
   'DCAA':               { bg: '#fff3e0', text: '#b45309', border: '#f5c88a' },
   'Dubai Chambers':     { bg: '#ede9fe', text: '#6d28d9', border: '#c4b5fd' },
-  'Dubai Chamber':      { bg: '#ede9fe', text: '#6d28d9', border: '#c4b5fd' },
   'SIRA':               { bg: '#fff0f0', text: '#c0392b', border: '#f5b8b8' },
   'Dubai Police':       { bg: '#e8f0fb', text: '#1360d2', border: '#b8d0f5' },
   'MOCCAE':             { bg: '#e8faf3', text: '#0f7960', border: '#a8dfc8' },
-  'ESMA':               { bg: '#fef3e2', text: '#92400e', border: '#f8c97a' },
-  'MOH':                { bg: '#fce7f3', text: '#9d174d', border: '#f4a8d0' },
   'Civil Defence':      { bg: '#fef2f2', text: '#b91c1c', border: '#fca5a5' },
   'Ministry of Economy':{ bg: '#f0f9ff', text: '#0369a1', border: '#bae6fd' },
   'Dubai Customs':      { bg: '#f8faff', text: '#334155', border: '#cbd5e1' },
 };
-const authorityStyle = (auth: string) => AUTHORITY_COLORS[auth] ?? { bg: '#f0f4ff', text: '#1360d2', border: '#c0d4f8' };
+const authorityStyle = (a: string) => AUTHORITY_COLORS[a] ?? { bg: '#eef4ff', text: '#1360d2', border: '#c0d4f8' };
 
-type Step = 'welcome' | 'activity' | 'mode' | 'cargo' | 'done';
-
+type Step = 'welcome' | 'recent' | 'search' | 'activity' | 'mode' | 'cargo' | 'done';
 const STEP_META = {
-  welcome:  { question: "Welcome back! I found services you've recently applied for. Would you like to re-apply, or start a fresh search?", sub: '' },
-  activity: { question: 'What are you looking to do?',              sub: 'Tell us your trade activity' },
-  mode:     { question: 'How will your cargo travel?',              sub: 'Choose a shipment mode' },
-  cargo:    { question: 'What type of cargo are you shipping?',     sub: 'Pick a cargo category' },
+  welcome:  { question: "Hi! How would you like to find a permit or certificate today?" },
+  recent:   { question: "Here are your recently applied services. Re-apply or start fresh." },
+  search:   { question: "What service are you looking for? I'll search for it." },
+  activity: { question: 'What are you looking to do?' },
+  mode:     { question: 'How will your cargo travel?' },
+  cargo:    { question: 'What type of cargo are you shipping?' },
 };
 
+/* ── Animations ── */
+const STYLES = `
+  @keyframes float      { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+  @keyframes orbGlow    { 0%,100%{box-shadow:0 0 16px rgba(99,102,241,0.4),0 0 32px rgba(19,96,210,0.18)} 50%{box-shadow:0 0 28px rgba(99,102,241,0.7),0 0 56px rgba(6,182,212,0.22)} }
+  @keyframes ripple     { 0%{transform:scale(1);opacity:0.4} 100%{transform:scale(2.6);opacity:0} }
+  @keyframes msgIn      { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+  @keyframes pillIn     { from{opacity:0;transform:translateX(14px)} to{opacity:1;transform:none} }
+  @keyframes chipIn     { from{opacity:0;transform:translateY(8px) scale(0.96)} to{opacity:1;transform:none} }
+  @keyframes slideUp    { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+  @keyframes dot        { 0%,80%,100%{transform:translateY(0);opacity:0.35} 40%{transform:translateY(-5px);opacity:1} }
+  @keyframes particleUp { 0%{transform:translateY(0) scale(1);opacity:0.6} 100%{transform:translateY(-44px) scale(0);opacity:0} }
+  @keyframes panelIn    { from{opacity:0;transform:translateY(12px) scale(0.98)} to{opacity:1;transform:none} }
+  @keyframes spinCW     { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes spinCCW    { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+  @keyframes coreGlow   { 0%,100%{opacity:0.7} 50%{opacity:1} }
+  @keyframes welcomeIn  { from{opacity:0;transform:translateY(24px) scale(0.97)} to{opacity:1;transform:none} }
+  @keyframes fadeSlide  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+  .chat-scroll::-webkit-scrollbar{width:4px}
+  .chat-scroll::-webkit-scrollbar-thumb{background:#c8d8f0;border-radius:4px}
+  .chat-scroll::-webkit-scrollbar-track{background:transparent}
+`;
 
-/* ── Chat bubble ── */
-function ChatBubble({ text, sub }: { text: string; sub?: string }) {
+/* ── AI Orb avatar — wave vortex ── */
+const WAVE_RINGS = [
+  { rx:14, ry:5.5, color:'rgba(99,102,241,0.75)',  rot:0,   dur:'7s',  ccw:false },
+  { rx:13, ry:6.5, color:'rgba(6,182,212,0.65)',   rot:40,  dur:'9s',  ccw:true  },
+  { rx:15, ry:4.5, color:'rgba(167,139,250,0.65)', rot:80,  dur:'6s',  ccw:false },
+  { rx:12, ry:7,   color:'rgba(52,211,153,0.55)',  rot:120, dur:'11s', ccw:true  },
+  { rx:14, ry:5,   color:'rgba(99,102,241,0.5)',   rot:160, dur:'8s',  ccw:false },
+  { rx:13, ry:6,   color:'rgba(6,182,212,0.55)',   rot:200, dur:'10s', ccw:true  },
+  { rx:15, ry:4,   color:'rgba(167,139,250,0.45)', rot:240, dur:'7s',  ccw:false },
+  { rx:11, ry:7.5, color:'rgba(52,211,153,0.4)',   rot:280, dur:'9s',  ccw:true  },
+  { rx:14, ry:5.5, color:'rgba(99,102,241,0.35)',  rot:320, dur:'12s', ccw:false },
+];
+
+function AiOrb({ size = 36, thinking = false }: { size?: number; thinking?: boolean }) {
+  const spd = thinking ? 0.35 : 1;
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, animation: 'bubbleIn 0.32s cubic-bezier(0.34,1.56,0.64,1)' }}>
-      <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#0e1b3d', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round">
-          <circle cx="12" cy="8" r="3"/><path d="M6 20v-1a6 6 0 0112 0v1"/>
+    <div style={{ position:'relative', width:size, height:size, flexShrink:0 }}>
+      {thinking && [0,1,2].map(i => (
+        <div key={i} style={{ position:'absolute', inset:-(size*0.28), borderRadius:'50%', border:'1.5px solid rgba(99,102,241,0.28)', animation:'ripple 2s ease-out infinite', animationDelay:`${i*0.6}s`, pointerEvents:'none' }} />
+      ))}
+      <div style={{
+        width:size, height:size, borderRadius:'50%',
+        background:'radial-gradient(circle at 32% 28%, #93c5fd 0%, #3b82f6 22%, #1360d2 52%, #0e1b3d 100%)',
+        animation:`orbGlow ${thinking?'1.1s':'3.5s'} ease infinite, float 4s ease infinite`,
+        display:'flex', alignItems:'center', justifyContent:'center',
+        position:'relative', overflow:'hidden', flexShrink:0,
+        boxShadow:`0 ${size*0.1}px ${size*0.35}px rgba(19,96,210,0.38)`,
+      }}>
+        {/* Wave vortex rings */}
+        <svg viewBox="0 0 40 40" style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
+          {WAVE_RINGS.map((r, i) => (
+            <ellipse key={i} cx="20" cy="20" rx={r.rx} ry={r.ry} fill="none"
+              stroke={r.color} strokeWidth={thinking ? 0.9 : 0.65}
+              style={{
+                transformOrigin:'20px 20px',
+                transform:`rotate(${r.rot}deg)`,
+                animation:`${r.ccw?'spinCCW':'spinCW'} ${parseFloat(r.dur)*spd}s linear infinite`,
+                animationDelay:`-${i * 0.9}s`,
+              }} />
+          ))}
+          {/* Center glow core */}
+          <circle cx="20" cy="20" r="5.5" fill="rgba(19,96,210,0.45)"
+            style={{ animation:'coreGlow 2.5s ease infinite' }} />
+          <circle cx="20" cy="20" r="5.5" fill="none"
+            stroke="rgba(255,255,255,0.45)" strokeWidth="0.6"
+            style={{ animation:'coreGlow 2.5s ease infinite' }} />
         </svg>
+        {/* Soft inner highlight */}
+        <div style={{ position:'absolute', top:'8%', left:'14%', width:'36%', height:'26%', background:'rgba(255,255,255,0.28)', borderRadius:'50%', filter:`blur(${size*0.06}px)`, zIndex:2 }} />
       </div>
-      <div style={{ background: '#fff', border: '1px solid #dce8ff', borderRadius: '4px 18px 18px 18px', padding: '13px 20px', display: 'inline-block', boxShadow: '0 2px 12px rgba(19,96,210,0.07)', maxWidth: '70%' }}>
-        <p style={{ fontFamily: font, fontSize: 18, fontWeight: 500, color: '#111838', margin: 0, lineHeight: 1.5 }}>{text}</p>
-        {sub && <p style={{ fontFamily: font, fontSize: 14, color: '#8fa8c8', margin: '3px 0 0' }}>{sub}</p>}
+    </div>
+  );
+}
+
+/* ── Floating particles ── */
+function Particles({ color = '#818cf8' }: { color?: string }) {
+  return (
+    <>{[...Array(5)].map((_, i) => (
+      <div key={i} style={{ position:'absolute', width:4+(i%2)*2, height:4+(i%2)*2, borderRadius:'50%', background:['#818cf8','#1360d2','#06b6d4','#a78bfa','#60a5fa'][i], left:`${18+i*14}%`, bottom:'65%', animation:'particleUp 1.8s ease-out infinite', animationDelay:`${i*0.3}s`, opacity:0, pointerEvents:'none' }} />
+    ))}</>
+  );
+}
+
+/* ── AI message bubble ── */
+function AiMessage({ text, isNew = true }: { text: string; isNew?: boolean }) {
+  return (
+    <div style={{ display:'flex', alignItems:'flex-start', gap:12, animation:isNew?'msgIn 0.4s ease':'none' }}>
+      <AiOrb size={36} />
+      <div style={{ background:'#fff', border:'1px solid #eef0f6', borderRadius:'4px 18px 18px 18px', padding:'14px 20px', maxWidth:'72%', boxShadow:'0 2px 12px rgba(0,0,0,0.06)' }}>
+        <p style={{ fontFamily:font, fontSize:16, fontWeight:400, color:'#111838', margin:0, lineHeight:1.65 }}>{text}</p>
       </div>
     </div>
   );
 }
 
 /* ── User answer pill ── */
-function AnswerPill({ label, color }: { label: string; color?: string }) {
+function UserPill({ label }: { label: string }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'flex-end', animation: 'pillIn 0.3s cubic-bezier(0.34,1.56,0.64,1)' }}>
-      <div style={{ background: color ?? '#1360d2', color: '#fff', borderRadius: '18px 4px 18px 18px', padding: '12px 22px', fontFamily: font, fontSize: 18, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 8, boxShadow: '0 3px 14px rgba(19,96,210,0.3)' }}>
-        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
+    <div style={{ display:'flex', justifyContent:'flex-end', animation:'pillIn 0.35s ease' }}>
+      <div style={{ background:'linear-gradient(135deg, #0e1b3d 0%, #1360d2 65%, #2080e8 100%)', color:'#fff', borderRadius:'18px 4px 18px 18px', padding:'11px 20px', fontFamily:font, fontSize:15, fontWeight:600, display:'inline-flex', alignItems:'center', gap:7, boxShadow:'0 4px 16px rgba(19,96,210,0.42)', maxWidth:'68%' }}>
+        <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
         {label}
       </div>
     </div>
   );
 }
 
-/* ── Recent services inside chat ── */
-function RecentServicesInChat({ onQuickStart, onStartNew, readonly }: { onQuickStart: (c: typeof FREQUENT_COMBOS[0]) => void; onStartNew: () => void; readonly?: boolean }) {
-  const [hovered, setHovered] = useState('');
-  const actColors: Record<string, string> = { Import: '#1360d2', Export: '#0f7960', 'Re-Export': '#7c3aed', Transfer: '#b45309' };
-  const modeColors: Record<string, string> = { Sea: '#0369a1', Air: '#7c3aed', Land: '#b45309', Rail: '#0f7960' };
-
+/* ── Thinking ── */
+function ThinkingState() {
   return (
-    <div style={{ paddingLeft: 44, display: 'flex', flexDirection: 'column', gap: 10, animation: 'chipIn 0.3s ease' }}>
+    <div style={{ display:'flex', alignItems:'flex-start', gap:12, animation:'msgIn 0.3s ease', position:'relative' }}>
+      <div style={{ position:'relative' }}><AiOrb size={36} thinking /><Particles /></div>
+      <div style={{ background:'#fff', border:'1px solid #eef0f6', borderRadius:'4px 18px 18px 18px', padding:'14px 20px', display:'flex', alignItems:'center', gap:8, boxShadow:'0 2px 12px rgba(0,0,0,0.06)' }}>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#818cf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation:'float 2s ease infinite' }}>
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/>
+        </svg>
+        <span style={{ fontFamily:font, fontSize:13, color:'#8fa8c8', letterSpacing:0.3 }}>Analyzing your request</span>
+        {[0,1,2].map(i => <div key={i} style={{ width:5, height:5, borderRadius:'50%', background:'#818cf8', animation:'dot 1.4s ease infinite', animationDelay:`${i*0.2}s` }} />)}
+      </div>
+    </div>
+  );
+}
+
+/* ── Welcome choice cards (dark gradient) ── */
+const WELCOME_CHOICES = [
+  {
+    key: 'recent',
+    label: 'Previously Applied',
+    desc: 'Quickly re-apply from your history',
+    grad: 'linear-gradient(145deg, #1e3a8a 0%, #1360d2 100%)',
+    glow: 'rgba(19,96,210,0.45)',
+    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>),
+  },
+  {
+    key: 'activity',
+    label: 'Find with Assistant',
+    desc: 'Answer a few questions and I\'ll find the right permits',
+    grad: 'linear-gradient(145deg, #1560a8 0%, #0ea5e9 100%)',
+    glow: 'rgba(14,165,233,0.45)',
+    icon: (<svg viewBox="0 0 24 12" width="30" height="15" fill="none"><circle cx="1.5" cy="9" r="1.8" fill="rgba(255,255,255,0.9)"/><circle cx="5.5" cy="4" r="1.8" fill="rgba(255,255,255,0.9)"/><circle cx="9.5" cy="1.5" r="1.8" fill="rgba(255,255,255,0.9)"/><circle cx="13.5" cy="4" r="1.8" fill="rgba(255,255,255,0.9)"/><circle cx="17.5" cy="9" r="1.8" fill="rgba(255,255,255,0.9)"/><circle cx="21.5" cy="4" r="1.8" fill="rgba(255,255,255,0.9)"/><polyline points="1.5,9 5.5,4 9.5,1.5 13.5,4 17.5,9 21.5,4" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="0.9" strokeDasharray="1.5 2"/></svg>),
+  },
+  {
+    key: 'search',
+    label: 'Search by Name',
+    desc: 'Know the exact service? Search it directly',
+    grad: 'linear-gradient(145deg, #0c4a6e 0%, #0369a1 100%)',
+    glow: 'rgba(3,105,161,0.45)',
+    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>),
+  },
+];
+
+function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: string) => void }) {
+  const [hov, setHov] = useState('');
+  return (
+    <div style={{ display:'flex', gap:14, justifyContent:'center', flexWrap:'nowrap', overflowX:'auto' }}>
+      {WELCOME_CHOICES.map((c, idx) => {
+        const isH = hov === c.key;
+        return (
+          <button key={c.key} onClick={() => onSelect(c.key, c.label)}
+            onMouseEnter={() => setHov(c.key)} onMouseLeave={() => setHov('')}
+            style={{
+              animation:`chipIn 0.4s cubic-bezier(0.34,1.4,0.64,1) both`,
+              animationDelay:`${idx*80}ms`,
+              display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
+              gap:14, width:190, minHeight:160,
+              background: c.grad,
+              border:'none',
+              borderRadius:22, padding:'24px 16px',
+              cursor:'pointer', transition:'all 0.22s cubic-bezier(0.34,1.4,0.64,1)',
+              boxShadow: isH
+                ? `0 12px 36px ${c.glow}, 0 4px 12px ${c.glow}`
+                : `0 4px 20px ${c.glow.replace('0.45','0.25')}`,
+              transform: isH ? 'translateY(-6px) scale(1.04)' : 'none',
+            }}>
+            <div style={{ width:56, height:56, borderRadius:16, background:'rgba(255,255,255,0.15)', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH?'0 0 24px rgba(255,255,255,0.2)':'none' }}>
+              {c.icon}
+            </div>
+            <div style={{ textAlign:'center' }}>
+              <div style={{ fontFamily:font, fontSize:15, fontWeight:700, color:'#fff', lineHeight:1.3, marginBottom:6 }}>{c.label}</div>
+              <div style={{ fontFamily:font, fontSize:12, color:'rgba(255,255,255,0.72)', lineHeight:1.45 }}>{c.desc}</div>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+
+/* ── Option cards (Import / Export / Sea / Air etc) — dark gradient style ── */
+function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any) => void }) {
+  const [hov, setHov] = useState('');
+  return (
+    <div style={{ display:'flex', flexWrap:'nowrap', gap:10, justifyContent:'flex-start', overflowX:'auto', paddingBottom:2 }}>
+      {options.map((o, idx) => {
+        const isH = hov === o.key;
+        const darkBase = o.color;
+        const gradIdle = `linear-gradient(145deg, rgba(14,27,61,0.72) 0%, ${darkBase}cc 100%)`;
+        const gradHov  = `linear-gradient(145deg, rgba(22,32,64,0.82) 0%, ${darkBase}ee 100%)`;
+        return (
+          <button key={o.key} onClick={() => onSelect(o)}
+            onMouseEnter={() => setHov(o.key)} onMouseLeave={() => setHov('')}
+            style={{
+              animation:`chipIn 0.36s cubic-bezier(0.34,1.4,0.64,1) both`,
+              animationDelay:`${idx*55}ms`,
+              display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
+              gap:10, flexShrink:0, width:144, minHeight:128,
+              background: isH ? gradHov : gradIdle,
+              border:`1.5px solid ${isH ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.08)'}`,
+              borderRadius:20, padding:'18px 12px',
+              cursor:'pointer', transition:'all 0.22s cubic-bezier(0.34,1.4,0.64,1)',
+              backdropFilter: 'blur(12px)',
+              boxShadow: isH ? `0 8px 24px ${darkBase}44, 0 2px 8px rgba(0,0,0,0.18)` : `0 2px 12px rgba(0,0,0,0.12)`,
+              transform: isH ? 'translateY(-4px) scale(1.04)' : 'none',
+            }}>
+            <div style={{ width:50, height:50, borderRadius:14, background:'rgba(255,255,255,0.12)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH ? '0 0 18px rgba(255,255,255,0.2)' : 'none' }}>
+              <div style={{ color:'#fff', filter:'brightness(10)' }}>{o.icon}</div>
+            </div>
+            <div style={{ textAlign:'center' }}>
+              <div style={{ fontFamily:font, fontSize:14, fontWeight:700, color:'#fff', lineHeight:1.2 }}>{o.label}</div>
+              {o.desc && <div style={{ fontFamily:font, fontSize:11, color:'rgba(255,255,255,0.6)', marginTop:4, lineHeight:1.35 }}>{o.desc}</div>}
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ── Cargo chips — dark gradient, wrapping ── */
+function CargoCards({ onSelect }: { onSelect: (o: any) => void }) {
+  const [hov, setHov] = useState('');
+  return (
+    <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
+      {CARGO_OPTIONS.map((o, idx) => {
+        const isH = hov === o.key;
+        const gradIdle = `linear-gradient(135deg, rgba(14,27,61,0.72) 0%, ${o.color}cc 100%)`;
+        const gradHov  = `linear-gradient(135deg, rgba(22,32,64,0.82) 0%, ${o.color}ee 100%)`;
+        return (
+          <button key={o.key} onClick={() => onSelect(o)}
+            onMouseEnter={()=>setHov(o.key)} onMouseLeave={()=>setHov('')}
+            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*35}ms`, display:'inline-flex', alignItems:'center', gap:8, flexShrink:0, background: isH ? gradHov : gradIdle, backdropFilter:'blur(10px)', border:`1.5px solid ${isH?'rgba(255,255,255,0.3)':'rgba(255,255,255,0.15)'}`, borderRadius:22, padding:'9px 16px 9px 10px', cursor:'pointer', transition:'all 0.18s', boxShadow: isH?`0 6px 18px ${o.color}40`:`0 2px 8px rgba(0,0,0,0.1)`, transform: isH?'translateY(-3px) scale(1.02)':'none' }}>
+            <div style={{ width:28, height:28, borderRadius:8, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', filter:'brightness(10)' }}>{o.icon}</div>
+            <span style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#fff', whiteSpace:'nowrap' }}>{o.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ── Recent services in chat ── */
+function RecentServicesInChat({ onQuickStart, onStartNew, readonly }: { onQuickStart: (c: typeof FREQUENT_COMBOS[0]) => void; onStartNew: () => void; readonly?: boolean }) {
+  const [hov, setHov] = useState('');
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
       {FREQUENT_COMBOS.map((combo, idx) => {
-        const isHov = hovered === String(idx);
+        const isH = hov === String(idx);
         const permits = PERMITS_MAP[combo.cargo] ?? [];
         return (
-          <div key={idx}
-            onMouseEnter={() => setHovered(String(idx))}
-            onMouseLeave={() => setHovered('')}
-            style={{ background: isHov ? '#f0f6ff' : '#f8faff', border: `1.5px solid ${isHov ? '#1360d2' : '#e0eaff'}`, borderRadius: 14, padding: '14px 18px', transition: 'all 0.15s', animation: `chipIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both`, animationDelay: `${idx * 80}ms` }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontFamily: font, fontSize: 16, fontWeight: 600, color: '#111838', margin: '0 0 4px' }}>
-                  {permits.length} permit{permits.length !== 1 ? 's' : ''} — {permits.slice(0, 1).map(p => p.label).join('')}{permits.length > 1 ? ` + ${permits.length - 1} more` : ''}
+          <div key={idx} onMouseEnter={()=>setHov(String(idx))} onMouseLeave={()=>setHov('')}
+            style={{ background: isH?'#f8fbff':'#fff', border:`1.5px solid ${isH?'#1360d2':'#eef0f6'}`, borderRadius:14, padding:'14px 18px', transition:'all 0.18s', animation:`chipIn 0.35s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*70}ms`, boxShadow: isH?'0 4px 16px rgba(19,96,210,0.1)':'0 1px 6px rgba(0,0,0,0.04)', transform: isH?'translateY(-1px)':'none' }}>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:12 }}>
+              <div style={{ flex:1 }}>
+                <p style={{ fontFamily:font, fontSize:15, fontWeight:600, color:'#111838', margin:'0 0 3px' }}>
+                  {permits.length} permit{permits.length!==1?'s':''} — {permits.slice(0,1).map(p=>p.label).join('')}{permits.length>1?` + ${permits.length-1} more`:''}
                 </p>
-                <p style={{ fontFamily: font, fontSize: 16, color: '#697498', margin: '0 0 3px' }}>{combo.activity} · {combo.mode} · {combo.cargo}</p>
-                <p style={{ fontFamily: font, fontSize: 13, color: '#b0bcd4', margin: 0 }}>Last applied {combo.lastUsed}</p>
+                <p style={{ fontFamily:font, fontSize:13, color:'#697498', margin:'0 0 2px' }}>Last applied {combo.lastUsed}</p>
+                <p style={{ fontFamily:font, fontSize:11, color:'#b0bcd4', margin:0 }}></p>
               </div>
               {!readonly && (
-                <button
-                  onClick={() => onQuickStart(combo)}
-                  style={{ flexShrink: 0, background: isHov ? '#1360d2' : '#eef4ff', color: isHov ? '#fff' : '#1360d2', border: 'none', borderRadius: 8, padding: '9px 18px', fontFamily: font, fontSize: 13, fontWeight: 600, cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap' }}>
+                <button onClick={() => onQuickStart(combo)}
+                  style={{ flexShrink:0, background: isH?'#1360d2':'#eef4ff', color: isH?'#fff':'#1360d2', border:'none', borderRadius:8, padding:'9px 16px', fontFamily:font, fontSize:13, fontWeight:600, cursor:'pointer', transition:'all 0.18s' }}>
                   Re-apply
                 </button>
               )}
@@ -184,236 +394,101 @@ function RecentServicesInChat({ onQuickStart, onStartNew, readonly }: { onQuickS
           </div>
         );
       })}
-      {/* Start new */}
-      {!readonly && <button onClick={onStartNew}
-        style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', border: '1.5px solid #1360d2', borderRadius: 20, padding: '9px 20px', fontFamily: font, fontSize: 13, fontWeight: 600, color: '#1360d2', cursor: 'pointer', animation: `chipIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both`, animationDelay: `${FREQUENT_COMBOS.length * 80}ms`, transition: 'all 0.15s' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1360d2'; (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#fff'; (e.currentTarget as HTMLButtonElement).style.color = '#1360d2'; }}>
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Start a new application
-      </button>}
-    </div>
-  );
-}
-
-/* ── Typing indicator ── */
-function TypingIndicator() {
-  return (
-    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, animation: 'bubbleIn 0.25s ease' }}>
-      <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#0e1b3d', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round">
-          <circle cx="12" cy="8" r="3"/><path d="M6 20v-1a6 6 0 0112 0v1"/>
-        </svg>
-      </div>
-      <div style={{ background: '#fff', border: '1px solid #dce8ff', borderRadius: '4px 18px 18px 18px', padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 5, boxShadow: '0 2px 12px rgba(19,96,210,0.07)' }}>
-        {[0, 1, 2].map(i => (
-          <div key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: '#1360d2', animation: `typingDot 1.2s ease infinite`, animationDelay: `${i * 0.18}s` }} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── Option chips (chatbot style) ── */
-function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any) => void; cols?: number }) {
-  const [hovered, setHovered] = useState('');
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingLeft: 42 }}>
-      {options.map((o, idx) => (
-        <button key={o.key} onClick={() => onSelect(o)}
-          onMouseEnter={() => setHovered(o.key)}
-          onMouseLeave={() => setHovered('')}
-          style={{
-            animation: `chipIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both`,
-            animationDelay: `${idx * 60}ms`,
-            display: 'inline-flex', alignItems: 'center', gap: 7,
-            background: hovered === o.key ? '#1360d2' : '#fff',
-            border: `1.5px solid ${hovered === o.key ? '#1360d2' : '#c8d8f4'}`,
-            borderRadius: 20, padding: '8px 16px 8px 10px',
-            cursor: 'pointer', transition: 'all 0.15s',
-            boxShadow: hovered === o.key ? '0 4px 12px rgba(19,96,210,0.2)' : 'none',
-          }}>
-          <div style={{ width: 22, height: 22, borderRadius: '50%', background: hovered === o.key ? 'rgba(255,255,255,0.2)' : '#eef4ff', color: hovered === o.key ? '#fff' : '#1360d2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.15s' }}>
-            <div style={{ transform: 'scale(0.6)', transformOrigin: 'center', width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{o.icon}</div>
-          </div>
-          <span style={{ fontFamily: font, fontSize: 13, fontWeight: 600, color: hovered === o.key ? '#fff' : '#111838', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>{o.label}</span>
+      {!readonly && (
+        <button onClick={onStartNew}
+          style={{ alignSelf:'flex-start', display:'inline-flex', alignItems:'center', gap:7, background:'#fff', border:'1.5px solid #1360d2', borderRadius:20, padding:'9px 20px', fontFamily:font, fontSize:13, fontWeight:600, color:'#1360d2', cursor:'pointer', animation:`chipIn 0.35s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${FREQUENT_COMBOS.length*70}ms`, transition:'all 0.18s' }}
+          onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background='#1360d2';(e.currentTarget as HTMLButtonElement).style.color='#fff';}}
+          onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background='#fff';(e.currentTarget as HTMLButtonElement).style.color='#1360d2';}}>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Start a new application
         </button>
-      ))}
+      )}
     </div>
   );
 }
 
-/* ── Cargo chips (chatbot style) ── */
-function CargoCards({ onSelect }: { onSelect: (o: any) => void }) {
-  const [q, setQ] = useState('');
-  const [hovered, setHovered] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => { setTimeout(() => inputRef.current?.focus(), 50); }, []);
-  const filtered = CARGO_OPTIONS.filter(c => c.label.toLowerCase().includes(q.toLowerCase()));
-
+/* ── Search results panel (driven by bottom bar input) ── */
+function SearchResults({ q, onSelect }: { q: string; onSelect: (label: string) => void }) {
+  const ALL_PERMITS = Object.values(PERMITS_MAP).flat();
+  const results = q.length > 1
+    ? ALL_PERMITS.filter(p => p.label.toLowerCase().includes(q.toLowerCase())).slice(0, 6)
+    : [];
+  if (!q || q.length < 2) return (
+    <div style={{ textAlign:'center', fontFamily:font, fontSize:13, color:'#97a3b8', padding:'8px 0' }}>Start typing in the search bar below to find a service…</div>
+  );
+  if (results.length === 0) return (
+    <div style={{ textAlign:'center', fontFamily:font, fontSize:13, color:'#97a3b8', padding:'8px 0' }}>No services matched. Try a different keyword.</div>
+  );
   return (
-    <div style={{ animation: 'slideUp 0.28s ease', paddingLeft: 42 }}>
-      <div style={{ position: 'relative', maxWidth: 280, marginBottom: 12 }}>
-        <input ref={inputRef} type="text" placeholder="Search cargo type…" value={q} onChange={e => setQ(e.target.value)}
-          style={{ width: '100%', height: 36, borderRadius: 18, border: '1.5px solid #dce8ff', padding: '0 36px 0 14px', fontFamily: font, fontSize: 13, color: '#111838', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
-          onFocus={e => (e.currentTarget.style.borderColor = '#1360d2')}
-          onBlur={e => (e.currentTarget.style.borderColor = '#dce8ff')}
-        />
-        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#8fa8c8" strokeWidth="2" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-        </svg>
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {filtered.map((o, idx) => (
-          <button key={o.key} onClick={() => onSelect(o)}
-            onMouseEnter={() => setHovered(o.key)}
-            onMouseLeave={() => setHovered('')}
-            style={{
-              animation: `chipIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both`,
-              animationDelay: `${idx * 50}ms`,
-              display: 'inline-flex', alignItems: 'center', gap: 7,
-              background: hovered === o.key ? '#1360d2' : '#fff',
-              border: `1.5px solid ${hovered === o.key ? '#1360d2' : '#c8d8f4'}`,
-              borderRadius: 20, padding: '8px 16px 8px 10px',
-              cursor: 'pointer', transition: 'all 0.15s',
-              boxShadow: hovered === o.key ? '0 4px 12px rgba(19,96,210,0.2)' : 'none',
-            }}>
-            <div style={{ width: 22, height: 22, borderRadius: '50%', background: hovered === o.key ? 'rgba(255,255,255,0.2)' : '#eef4ff', color: hovered === o.key ? '#fff' : '#1360d2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'all 0.15s' }}>
-              <div style={{ transform: 'scale(0.6)', transformOrigin: 'center', width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{o.icon}</div>
+    <div style={{ display:'flex', flexDirection:'column', gap:6, maxWidth:640, margin:'0 auto', width:'100%' }}>
+      {results.map((p, i) => {
+        const s = authorityStyle(p.authority);
+        return (
+          <button key={i} onClick={() => onSelect(p.label)}
+            style={{ display:'flex', alignItems:'center', gap:12, background:'rgba(255,255,255,0.9)', border:'1.5px solid #eef0f6', borderRadius:14, padding:'12px 16px', cursor:'pointer', textAlign:'left', transition:'all 0.16s', animation:`chipIn 0.25s ease both`, animationDelay:`${i*30}ms` }}
+            onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.borderColor='#1360d2';(e.currentTarget as HTMLButtonElement).style.background='#f0f5ff';}}
+            onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.borderColor='#eef0f6';(e.currentTarget as HTMLButtonElement).style.background='rgba(255,255,255,0.9)';}}>
+            <div style={{ flex:1 }}>
+              <div style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#111838' }}>{p.label}</div>
+              <div style={{ display:'inline-flex', alignItems:'center', gap:4, marginTop:3, background:s.bg, border:`1px solid ${s.border}`, borderRadius:10, padding:'2px 8px' }}>
+                <span style={{ fontFamily:font, fontSize:11, color:s.text, fontWeight:600 }}>{p.authority}</span>
+              </div>
             </div>
-            <span style={{ fontFamily: font, fontSize: 15, fontWeight: 600, color: hovered === o.key ? '#fff' : '#111838', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>{o.label}</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#97a3b8" strokeWidth="2" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }
 
-/* ── Results section ── */
-function ResultsSection({ answers, onRestart }: { answers: Record<string, string>; onRestart: () => void }) {
+/* ── Results ── */
+function ResultsSection({ answers, onRestart }: { answers: Record<string,string>; onRestart: () => void }) {
   const permits = PERMITS_MAP[answers.cargo] ?? [];
-  const grouped = permits.reduce<Record<string, typeof permits>>((acc, p) => {
-    (acc[p.authority] = acc[p.authority] || []).push(p); return acc;
-  }, {});
-
+  const grouped = permits.reduce<Record<string,typeof permits>>((acc,p) => { (acc[p.authority]=acc[p.authority]||[]).push(p); return acc; }, {});
   return (
-    <div style={{ animation: 'slideUp 0.35s ease' }}>
-
-      {/* Count banner */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, background: 'linear-gradient(135deg, #e8f0fb 0%, #dce8f8 100%)', border: '1px solid #c8d8f0', borderRadius: 14, padding: '18px 24px', marginBottom: 20 }}>
-        <div style={{ textAlign: 'center', minWidth: 52 }}>
-          <p style={{ fontFamily: font, fontSize: 38, fontWeight: 800, color: '#1360d2', margin: 0, lineHeight: 1 }}>{permits.length}</p>
-          <p style={{ fontFamily: font, fontSize: 11, color: '#697498', margin: '3px 0 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Services</p>
+    <div style={{ animation:'slideUp 0.35s ease' }}>
+      <div style={{ display:'flex', alignItems:'center', gap:16, background:'linear-gradient(135deg,#eef4ff,#e8f0fb)', border:'1px solid #dce8ff', borderRadius:16, padding:'18px 22px', marginBottom:18, boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
+        <div style={{ textAlign:'center', minWidth:52 }}>
+          <p style={{ fontFamily:font, fontSize:38, fontWeight:800, color:'#1360d2', margin:0, lineHeight:1 }}>{permits.length}</p>
+          <p style={{ fontFamily:font, fontSize:11, color:'#697498', margin:'2px 0 0', textTransform:'uppercase', letterSpacing:'0.6px' }}>Services</p>
         </div>
-        <div style={{ width: 1, height: 40, background: '#c0d4ec', flexShrink: 0 }} />
+        <div style={{ width:1, height:40, background:'#c8d8ee', flexShrink:0 }} />
         <div>
-          <p style={{ fontFamily: font, fontSize: 15, fontWeight: 600, color: '#111838', margin: '0 0 4px' }}>
-            {permits.length} permit{permits.length !== 1 ? 's' : ''} found for your shipment
-          </p>
-          <p style={{ fontFamily: font, fontSize: 13, color: '#697498', margin: 0 }}>
-            Review each service below and start your application
-          </p>
+          <p style={{ fontFamily:font, fontSize:15, fontWeight:600, color:'#111838', margin:'0 0 3px' }}>{permits.length} permit{permits.length!==1?'s':''} found for your shipment</p>
+          <p style={{ fontFamily:font, fontSize:13, color:'#697498', margin:0 }}>Review each service and start your application</p>
         </div>
-        <button onClick={onRestart} style={{ marginLeft: 'auto', flexShrink: 0, background: '#fff', border: '1px solid #c8d8f0', borderRadius: 20, padding: '8px 16px', fontFamily: font, fontSize: 13, color: '#1360d2', fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        <button onClick={onRestart} style={{ marginLeft:'auto', flexShrink:0, background:'#fff', border:'1px solid #dce8ff', borderRadius:20, padding:'8px 16px', fontFamily:font, fontSize:13, color:'#1360d2', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:5, boxShadow:'0 1px 4px rgba(0,0,0,0.05)', transition:'all 0.18s' }}
+          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
+          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#fff'}>
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
           Start over
         </button>
       </div>
-
-      {Object.entries(grouped).map(([auth, items]) => (
-        <div key={auth} style={{ marginBottom: 14 }}>
-          {(() => { const s = authorityStyle(auth); return (
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: s.bg, border: `1px solid ${s.border}`, borderRadius: 20, padding: '6px 14px 6px 10px', marginBottom: 10 }}>
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke={s.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span style={{ fontFamily: font, fontSize: 12, fontWeight: 700, color: s.text, letterSpacing: '0.2px' }}>{auth}</span>
-          </div>
-          ); })()}
-          {items.map((p, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f8fbff', border: '1px solid #e8f0ff', borderRadius: 10, padding: '12px 16px', marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 8, background: '#eaf1ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <IntegratedClearanceIcon size={22} />
-              </div>
-              <span style={{ flex: 1, fontFamily: font, fontSize: 16, color: '#111838' }}>{p.label}</span>
-              <button style={{ background: '#1360d2', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 18px', fontFamily: font, fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                Start Journey
-              </button>
+      {Object.entries(grouped).map(([auth, items]) => {
+        const s = authorityStyle(auth);
+        return (
+          <div key={auth} style={{ marginBottom:14 }}>
+            <div style={{ display:'inline-flex', alignItems:'center', gap:6, background:s.bg, border:`1px solid ${s.border}`, borderRadius:20, padding:'5px 12px 5px 9px', marginBottom:8 }}>
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke={s.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span style={{ fontFamily:font, fontSize:12, fontWeight:700, color:s.text }}>{auth}</span>
             </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Recent Services panel (right column) ── */
-function RecentServicesPanel() {
-  const [hovered, setHovered] = useState('');
-  const recentServices = FREQUENT_COMBOS.flatMap(combo =>
-    (PERMITS_MAP[combo.cargo] ?? []).slice(0, 2).map(svc => ({
-      ...svc,
-      activity: combo.activity,
-      mode: combo.mode,
-      cargo: combo.cargo,
-      lastUsed: combo.lastUsed,
-      key: `${combo.cargo}-${svc.label}`,
-    }))
-  ).slice(0, 5);
-
-  return (
-    <div style={{ background: '#fff', border: '1px solid #e5efff', borderRadius: 16, overflow: 'hidden' }}>
-      {/* Header */}
-      <div style={{ background: '#0e1b3d', padding: '18px 22px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 34, height: 34, borderRadius: 8, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-          </div>
-          <div>
-            <p style={{ fontFamily: font, fontSize: 14, fontWeight: 700, color: '#fff', margin: 0 }}>Recently Applied Services</p>
-            <p style={{ fontFamily: font, fontSize: 12, color: 'rgba(255,255,255,0.5)', margin: 0 }}>Quick re-apply from your history</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Service cards */}
-      <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {recentServices.map((svc) => {
-          const isHov = hovered === svc.key;
-          const actOpt = TRADE_OPTIONS.find(o => o.label === svc.activity);
-          const modeOpt = MODE_OPTIONS.find(o => o.label === svc.mode);
-          return (
-            <div key={svc.key}
-              onMouseEnter={() => setHovered(svc.key)}
-              onMouseLeave={() => setHovered('')}
-              style={{ background: isHov ? '#f0f6ff' : '#f8faff', border: `1.5px solid ${isHov ? '#1360d2' : '#e8efff'}`, borderRadius: 12, padding: '14px 16px', transition: 'all 0.15s', cursor: 'default' }}>
-
-              {/* Service name */}
-              <p style={{ fontFamily: font, fontSize: 13, fontWeight: 600, color: '#111838', margin: '0 0 4px', lineHeight: 1.4 }}>{svc.label}</p>
-
-              {/* Meta row + button */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 10 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  {(() => { const s = authorityStyle(svc.authority); return (
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: s.bg, border: `1px solid ${s.border}`, borderRadius: 20, padding: '4px 10px 4px 8px', alignSelf: 'flex-start' }}>
-                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke={s.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                    </svg>
-                    <span style={{ fontFamily: font, fontSize: 11, fontWeight: 700, color: s.text }}>{svc.authority}</span>
-                  </div>
-                  ); })()}
-                  <p style={{ fontFamily: font, fontSize: 11, color: '#b0bcd4', margin: 0 }}>{svc.lastUsed}</p>
+            {items.map((p, i) => (
+              <div key={i} style={{ display:'flex', alignItems:'center', gap:12, background:'#fff', border:'1px solid #eef0f6', borderRadius:12, padding:'13px 16px', marginBottom:7, boxShadow:'0 1px 6px rgba(0,0,0,0.04)', transition:'all 0.18s' }}
+                onMouseEnter={e=>{(e.currentTarget as HTMLDivElement).style.borderColor='#c8deff';(e.currentTarget as HTMLDivElement).style.background='#f8fbff';}}
+                onMouseLeave={e=>{(e.currentTarget as HTMLDivElement).style.borderColor='#eef0f6';(e.currentTarget as HTMLDivElement).style.background='#fff';}}>
+                <div style={{ width:36, height:36, borderRadius:9, background:'#eaf1ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                  <IntegratedClearanceIcon size={20} />
                 </div>
-                <button style={{ flexShrink: 0, background: isHov ? '#1360d2' : '#eef4ff', color: isHov ? '#fff' : '#1360d2', border: 'none', borderRadius: 8, padding: '8px 14px', fontFamily: font, fontSize: 12, fontWeight: 600, cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap' }}>
-                  Re-apply
+                <span style={{ flex:1, fontFamily:font, fontSize:14, color:'#111838' }}>{p.label}</span>
+                <button style={{ background:'#1360d2', color:'#fff', border:'none', borderRadius:8, padding:'8px 18px', fontFamily:font, fontSize:13, fontWeight:600, cursor:'pointer', flexShrink:0, boxShadow:'0 3px 10px rgba(19,96,210,0.3)' }}>
+                  Start Journey
                 </button>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -424,171 +499,276 @@ export default function PermitsCreatePage({ onClose }: Props) {
   const [history, setHistory] = useState<{ step: Step; answer: string; opt: any }[]>([]);
   const [isTyping, setIsTyping] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [inputVal, setInputVal] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const answers: Record<string, string> = Object.fromEntries(history.map(h => [h.step, h.answer]));
+  const isInputStep = step === 'cargo' || step === 'search';
+  const hasChatted = history.length > 0 || step !== 'welcome';
+  const answers: Record<string,string> = Object.fromEntries(history.map(h=>[h.step,h.answer]));
 
-  const scrollDown = () => setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }), 60);
+  useEffect(() => { setTimeout(()=>setMounted(true), 40); }, []);
+  const scrollDown = () => setTimeout(()=>bottomRef.current?.scrollIntoView({behavior:'smooth',block:'end'}), 60);
 
   const showStep = (s: Step) => {
-    setIsTyping(true); setShowOptions(false); setStep(s);
-    setTimeout(() => { setIsTyping(false); scrollDown(); }, 900);
-    setTimeout(() => { setShowOptions(true); scrollDown(); }, 1350);
+    setIsTyping(true); setShowOptions(false); setStep(s); setInputVal('');
+    setTimeout(()=>{ setIsTyping(false); scrollDown(); if (s==='cargo'||s==='search') setTimeout(()=>inputRef.current?.focus(),100); }, 900);
+    setTimeout(()=>{ setShowOptions(true); scrollDown(); }, 1350);
   };
 
-  useEffect(() => { showStep('welcome'); }, []);
-
-  const pick = (currentStep: Step, nextStep: Step, opt: any) => {
-    setShowOptions(false);
-    setHistory(h => [...h, { step: currentStep, answer: opt.label, opt }]);
-    scrollDown();
-    if (nextStep === 'done') {
-      setTimeout(() => { setStep('done'); scrollDown(); }, 400);
-    } else {
-      showStep(nextStep);
+  const submitInput = () => {
+    const val = inputVal.trim();
+    if (!val) return;
+    if (step === 'search') pickSearch(val);
+    else if (step === 'cargo') {
+      const match = CARGO_OPTIONS.find(o => o.label.toLowerCase().includes(val.toLowerCase()));
+      const opt = match ?? CARGO_OPTIONS.find(o => o.key === 'other')!;
+      pick('cargo', 'done', { ...opt, label: match ? opt.label : val });
     }
+  };
+
+  useEffect(()=>{showStep('welcome');},[]);
+
+  const pick = (curr: Step, next: Step, opt: any) => {
+    setShowOptions(false);
+    setHistory(h=>[...h,{step:curr,answer:opt.label,opt}]);
+    scrollDown();
+    if (next==='done') { setTimeout(()=>{setStep('done'); scrollDown();},400); }
+    else showStep(next);
+  };
+
+  const pickWelcome = (key: string, label: string) => {
+    setShowOptions(false);
+    setHistory(h=>[...h,{step:'welcome' as Step, answer:label, opt:{key,label}}]);
+    scrollDown();
+    showStep(key as Step);
   };
 
   const restart = () => { setHistory([]); showStep('welcome'); };
 
   const quickStart = (combo: typeof FREQUENT_COMBOS[0]) => {
-    const actOpt   = TRADE_OPTIONS.find(o => o.label === combo.activity)!;
-    const modeOpt  = MODE_OPTIONS.find(o => o.label === combo.mode)!;
-    const cargoOpt = CARGO_OPTIONS.find(o => o.label === combo.cargo)!;
-    setHistory(h => [
-      ...h,
-      { step: 'welcome'  as Step, answer: `Re-apply — ${combo.activity} / ${combo.mode} / ${combo.cargo}`, opt: null },
-      { step: 'activity' as Step, answer: combo.activity, opt: actOpt },
-      { step: 'mode'     as Step, answer: combo.mode,     opt: modeOpt },
-      { step: 'cargo'    as Step, answer: combo.cargo,     opt: cargoOpt },
+    const actOpt  = TRADE_OPTIONS.find(o=>o.label===combo.activity)!;
+    const modeOpt = MODE_OPTIONS.find(o=>o.label===combo.mode)!;
+    const cargoOpt= CARGO_OPTIONS.find(o=>o.label===combo.cargo)!;
+    setHistory(h=>[...h,
+      {step:'welcome'  as Step, answer:'Previously Applied', opt:{key:'recent'}},
+      {step:'recent'   as Step, answer:`Re-apply — ${combo.activity} / ${combo.mode} / ${combo.cargo}`, opt:null},
+      {step:'activity' as Step, answer:combo.activity, opt:actOpt},
+      {step:'mode'     as Step, answer:combo.mode,     opt:modeOpt},
+      {step:'cargo'    as Step, answer:combo.cargo,    opt:cargoOpt},
     ]);
-    setShowOptions(false);
-    setStep('done');
-    scrollDown();
+    setShowOptions(false); setStep('done'); scrollDown();
   };
 
   const startNew = () => {
-    setHistory(h => [...h, { step: 'welcome' as Step, answer: 'Start a new application', opt: null }]);
+    setHistory(h=>[...h,{step:'recent' as Step, answer:'Start a new application', opt:null}]);
     showStep('activity');
   };
 
+  const pickSearch = (label: string) => {
+    setShowOptions(false);
+    setHistory(h=>[...h,{step:'search' as Step, answer:label, opt:null}]);
+    setStep('done'); scrollDown();
+  };
+
+  /* Re-pick from a past history position — restart flow from that point */
+  const rePickAt = (histIdx: number, curr: Step, next: Step, opt: any) => {
+    setHistory(h => [...h.slice(0, histIdx), {step:curr, answer:opt.label, opt}]);
+    scrollDown();
+    if (next==='done') setTimeout(()=>{setStep('done'); scrollDown();},400);
+    else showStep(next);
+  };
+
+  /* Render the option panel for a history item (always visible, clickable to restart) */
+  const renderHistoryOpts = (histStep: Step, histIdx: number) => {
+    const op = (curr: Step, next: Step, o: any) => rePickAt(histIdx, curr, next, o);
+    switch (histStep) {
+      case 'welcome':  return <WelcomeChoiceCards onSelect={(k,l)=>{ setHistory(h=>h.slice(0,histIdx)); pickWelcome(k,l); }} />;
+      case 'recent':   return <RecentServicesInChat onQuickStart={c=>{setHistory(h=>h.slice(0,histIdx));quickStart(c);}} onStartNew={()=>{setHistory(h=>h.slice(0,histIdx));startNew();}} />;
+      case 'activity': return <OptionCards options={TRADE_OPTIONS} onSelect={o=>op('activity','mode',o)} />;
+      case 'mode':     return <OptionCards options={MODE_OPTIONS}  onSelect={o=>op('mode','cargo',o)} />;
+      case 'cargo':    return <CargoCards onSelect={o=>op('cargo','done',o)} />;
+      default:         return null;
+    }
+  };
+
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', flexDirection: 'column', background: '#eef3fb' }}>
-      <style>{`
-        @keyframes bubbleIn  { from { opacity:0; transform: translateY(10px) scale(0.96); } to { opacity:1; transform: none; } }
-        @keyframes pillIn    { from { opacity:0; transform: translateX(14px) scale(0.94); } to { opacity:1; transform: none; } }
-        @keyframes chipIn    { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
-        @keyframes typingDot { 0%,80%,100% { transform: translateY(0); opacity:0.4; } 40% { transform: translateY(-5px); opacity:1; } }
-        ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #c8deff; border-radius: 4px; }
-      `}</style>
+    <div style={{ position:'fixed', inset:0, zIndex:200, display:'flex', flexDirection:'column', background:'#fff', overflow:'hidden' }}>
+      <style>{STYLES}</style>
 
-      <Header />
+      <div style={{ position:'relative', zIndex:10 }}><Header /></div>
 
-      {/* Content area — fills remaining height */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px 32px 0', minHeight: 0 }}>
+      {/* Main content */}
+      <div style={{ flex:1, display:'flex', flexDirection:'column', minHeight:0, position:'relative', zIndex:5, opacity:mounted?1:0, transform:mounted?'none':'translateY(10px)', transition:'opacity 0.4s ease, transform 0.4s ease' }}>
 
-        {/* Breadcrumb + BU row */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: font, fontSize: 14 }}>
-            <span style={{ color: '#8f94ae', cursor: 'pointer' }}>Home</span>
-            <span style={{ color: '#dc3545', margin: '0 3px' }}>/</span>
-            <span style={{ color: '#8f94ae', cursor: 'pointer' }}>Service Catalog</span>
-            <span style={{ color: '#dc3545', margin: '0 3px' }}>/</span>
-            <span style={{ color: '#111838', fontWeight: 500 }}>Find Permits & Certificates</span>
+        {/* Breadcrumb + BU — white strip */}
+        <div style={{ background:'#fff', borderBottom:'1px solid #e8eef8', padding:'10px 24px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:8, flexShrink:0 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:4, fontFamily:font, fontSize:13 }}>
+            <span style={{ color:'#8f94ae', cursor:'pointer' }}>Home</span>
+            <span style={{ color:'#dc3545', margin:'0 3px' }}>/</span>
+            <span style={{ color:'#8f94ae', cursor:'pointer' }}>Service Catalog</span>
+            <span style={{ color:'#dc3545', margin:'0 3px' }}>/</span>
+            <span style={{ color:'#111838', fontWeight:500 }}>Find Permits & Certificates</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#e2ebf9', border: '1px solid #c8d8ee', borderRadius: 6, padding: '6px 14px', fontFamily: font, fontSize: 14, color: '#0e1b3d', fontWeight: 500 }}>
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#1360d2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span style={{ color: '#697498', fontSize: 12, fontWeight: 400 }}>BU:</span>
+          <div style={{ display:'flex', alignItems:'center', gap:7, background:'#f5f8ff', border:'1px solid #dce8ff', borderRadius:8, padding:'6px 14px', fontFamily:font, fontSize:13, color:'#0e1b3d' }}>
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1360d2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span style={{ color:'#697498', fontSize:12 }}>BU:</span>
             AE-1019056 — Business Unit - Test LLC
           </div>
         </div>
 
-        {/* Chat window — fills remaining space */}
-        <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', background: 'transparent', overflow: 'hidden' }}>
+        {/* Chat area */}
+        <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column', padding:'14px 24px 0' }}>
 
-          {/* Chat header */}
-          <div style={{ background: '#fff', borderBottom: '1px solid #e0eaff', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
-            <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#eef4ff', border: '1.5px solid #dce8ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1360d2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-              </svg>
+          {/* Chat window */}
+          <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column', background:'rgba(255,255,255,0.85)', border:'1px solid #e8eef8', borderRadius:'20px 20px 0 0', overflow:'hidden', boxShadow:'0 -4px 32px rgba(19,96,210,0.06)', animation:'panelIn 0.45s cubic-bezier(0.34,1.4,0.64,1)' }}>
+
+            {/* Chat header */}
+            <div style={{ background:'#fff', borderBottom:'1px solid #eef0f6', padding:'15px 28px', display:'flex', alignItems:'center', gap:13, flexShrink:0 }}>
+              <AiOrb size={40} />
+              <div>
+                <p style={{ fontFamily:font, fontSize:15, fontWeight:700, color:'#111838', margin:0 }}>Permit / Certificate Assistant</p>
+                <p style={{ fontFamily:font, fontSize:12, color:'#97a3b8', margin:'2px 0 0' }}>Answer a few questions to find exactly what to apply for</p>
+              </div>
             </div>
-            <div>
-              <p style={{ fontFamily: font, fontSize: 16, fontWeight: 700, color: '#111838', margin: 0 }}>Permit / Certificate Assistant</p>
-              <p style={{ fontFamily: font, fontSize: 12, color: '#697498', margin: '2px 0 0' }}>Answer a few questions to find exactly what to apply for</p>
-            </div>
-          </div>
 
-          {/* Messages area */}
-          <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', padding: '28px 32px 100px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 18 }}>
-            <div style={{ maxWidth: 1040, width: '100%', alignSelf: 'center', display: 'flex', flexDirection: 'column', gap: 18 }}>
+            {/* Messages — scrollable with fixed overflow */}
+            <div className="chat-scroll" style={{ flex:1, minHeight:0, overflowY:'auto', background:'linear-gradient(175deg, #eef4ff 0%, #f4f8ff 50%, #e8f0fb 100%)', display:'flex', flexDirection:'column' }}>
 
-              {/* Answered history — all fully visible */}
-              {history.map((h, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <ChatBubble text={STEP_META[h.step as keyof typeof STEP_META]?.question ?? ''} />
-                  {h.step === 'welcome' && (
-                    <RecentServicesInChat onQuickStart={quickStart} onStartNew={startNew} readonly />
-                  )}
-                  <AnswerPill label={h.answer} color={h.opt?.color} />
-                </div>
-              ))}
+              {/* Spacer — pushes content to bottom when short, collapses when content overflows */}
+              <div style={{ flex:1, minHeight:32 }} />
 
-              {/* Active state */}
-              {step === 'done' ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16, animation: 'bubbleIn 0.35s ease' }}>
-                  {/* Summary strip */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#eef4ff', border: '1px solid #dce8ff', borderRadius: 12, padding: '12px 18px', flexWrap: 'wrap' }}>
-                    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="#1360d2" strokeWidth="2.3" strokeLinecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
-                    <span style={{ fontFamily: font, fontSize: 13, color: '#697498' }}>You selected:</span>
-                    {history.filter(h => h.step !== 'welcome').map((h, i) => {
-                      const opt = h.opt;
-                      return (
-                        <div key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#fff', border: '1px solid #dce8ff', borderRadius: 20, padding: '5px 12px 5px 8px' }}>
-                          <div style={{ width: 18, height: 18, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1360d2', overflow: 'hidden' }}>
-                            {opt?.icon && <div style={{ transform: 'scale(0.65)', transformOrigin: 'center' }}>{opt.icon}</div>}
-                          </div>
-                          <span style={{ fontFamily: font, fontSize: 13, fontWeight: 600, color: '#1360d2' }}>{h.answer}</span>
+              {/* ── Welcome centered mode ── */}
+              {!hasChatted ? (
+                <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:24, padding:'32px 28px 28px', animation:'welcomeIn 0.55s cubic-bezier(0.34,1.4,0.64,1)' }}>
+                  <AiOrb size={80} thinking={isTyping} />
+                  {isTyping ? (
+                    <div style={{ display:'flex', alignItems:'center', gap:10, background:'rgba(255,255,255,0.92)', border:'1px solid #eef0f6', borderRadius:20, padding:'14px 28px', boxShadow:'0 2px 12px rgba(0,0,0,0.06)' }}>
+                      <span style={{ fontFamily:font, fontSize:14, color:'#8fa8c8' }}>Getting ready</span>
+                      {[0,1,2].map(i => <div key={i} style={{ width:5, height:5, borderRadius:'50%', background:'#1360d2', animation:'dot 1.4s ease infinite', animationDelay:`${i*0.2}s` }} />)}
+                    </div>
+                  ) : (
+                    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:20, maxWidth:520, width:'100%' }}>
+                      <div style={{ background:'rgba(255,255,255,0.95)', border:'1px solid #eef0f6', borderRadius:'4px 20px 20px 20px', padding:'18px 28px', boxShadow:'0 2px 14px rgba(0,0,0,0.07)', textAlign:'center' }}>
+                        <p style={{ fontFamily:font, fontSize:17, fontWeight:400, color:'#111838', margin:0, lineHeight:1.65 }}>{STEP_META.welcome.question}</p>
+                      </div>
+                      {showOptions && (
+                        <div style={{ animation:'slideUp 0.35s cubic-bezier(0.34,1.4,0.64,1)', width:'100%' }}>
+                          <WelcomeChoiceCards onSelect={pickWelcome} />
                         </div>
-                      );
-                    })}
-                    <button onClick={restart} style={{ marginLeft: 'auto', background: '#fff', border: '1px solid #dce8ff', borderRadius: 8, fontFamily: font, fontSize: 12, color: '#1360d2', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', fontWeight: 600 }}>
-                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                      Change
-                    </button>
-                  </div>
-                  <ResultsSection answers={answers} onRestart={restart} />
+                      )}
+                    </div>
+                  )}
                 </div>
-              ) : isTyping ? (
-                <TypingIndicator />
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  <ChatBubble text={STEP_META[step].question} sub={STEP_META[step].sub} />
-                  {showOptions && (
-                    <>
-                      {step === 'welcome'  && <RecentServicesInChat onQuickStart={quickStart} onStartNew={startNew} />}
-                      {step === 'activity' && <OptionCards options={TRADE_OPTIONS} onSelect={o => pick('activity', 'mode', o)} />}
-                      {step === 'mode'     && <OptionCards options={MODE_OPTIONS}  onSelect={o => pick('mode', 'cargo', o)} />}
-                      {step === 'cargo'    && <CargoCards onSelect={o => pick('cargo', 'done', o)} />}
-                    </>
+                /* ── Chat L/R mode ── */
+                <div style={{ padding:'20px 32px 20px', maxWidth:960, width:'100%', margin:'0 auto', alignSelf:'center', display:'flex', flexDirection:'column', gap:18, animation:'fadeSlide 0.4s ease' }}>
+
+                  {/* History: each item = AI question + its options (inline, dimmed) + user answer pill */}
+                  {history.map((h, i) => {
+                    const q = STEP_META[h.step as keyof typeof STEP_META]?.question ?? '';
+                    const opts = renderHistoryOpts(h.step, i);
+                    return (
+                      <div key={i} style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                        {q && <AiMessage text={q} isNew={false} />}
+                        {opts && (
+                          <div style={{ paddingLeft:44, opacity:0.65, transition:'opacity 0.18s' }}
+                            onMouseEnter={e=>(e.currentTarget as HTMLDivElement).style.opacity='1'}
+                            onMouseLeave={e=>(e.currentTarget as HTMLDivElement).style.opacity='0.65'}>
+                            {opts}
+                          </div>
+                        )}
+                        <UserPill label={h.answer} />
+                      </div>
+                    );
+                  })}
+
+                  {/* Current active step — only show question, options go to bottom panel */}
+                  {step === 'done' ? (
+                    <div style={{ display:'flex', flexDirection:'column', gap:14, animation:'msgIn 0.35s ease' }}>
+                      <div style={{ display:'flex', alignItems:'center', gap:8, background:'#fff', border:'1.5px solid #e2eaf8', borderRadius:14, padding:'12px 18px', flexWrap:'wrap', boxShadow:'0 2px 12px rgba(19,96,210,0.08)' }}>
+                        <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
+                          <div style={{ width:20, height:20, borderRadius:'50%', background:'linear-gradient(135deg,#1360d2,#0e1b3d)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                            <svg viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
+                          </div>
+                          <span style={{ fontFamily:font, fontSize:12, fontWeight:600, color:'#697498', textTransform:'uppercase', letterSpacing:0.5 }}>You selected</span>
+                        </div>
+                        <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap', flex:1 }}>
+                        {history.filter(h=>h.step!=='welcome').map((h,i)=>(
+                          <div key={i} style={{ display:'inline-flex', alignItems:'center', gap:5, background:'linear-gradient(135deg,#0e1b3d,#1360d2)', borderRadius:20, padding:'5px 13px 5px 8px' }}>
+                            <div style={{ width:16, height:16, flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', overflow:'hidden', filter:'brightness(10)' }}>
+                              {h.opt?.icon && <div style={{ transform:'scale(0.65)', transformOrigin:'center' }}>{h.opt.icon}</div>}
+                            </div>
+                            <span style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#fff' }}>{h.answer}</span>
+                          </div>
+                        ))}
+                        </div>
+                        <button onClick={restart} style={{ marginLeft:'auto', background:'#f5f8ff', border:'1.5px solid #dce8ff', borderRadius:8, fontFamily:font, fontSize:12, color:'#1360d2', cursor:'pointer', display:'flex', alignItems:'center', gap:4, padding:'6px 14px', fontWeight:600, flexShrink:0 }}
+                          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
+                          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#f5f8ff'}>
+                          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+                          Change
+                        </button>
+                      </div>
+                      <ResultsSection answers={answers} onRestart={restart} />
+                    </div>
+                  ) : isTyping ? (
+                    <ThinkingState />
+                  ) : (
+                    <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                      <AiMessage text={STEP_META[step].question} />
+                    </div>
                   )}
                 </div>
               )}
 
-              <div ref={bottomRef} style={{ height: 1 }} />
+              {/* Scroll anchor always at the very bottom */}
+              <div ref={bottomRef} style={{ height:1, flexShrink:0 }} />
             </div>
+
+            {/* ── Current step options panel (white bg, pinned above input) ── */}
+            {hasChatted && !isTyping && step !== 'done' && showOptions && (
+              <div style={{ flexShrink:0, background:'#fff', borderTop:'1px solid #eef0f6', animation:'slideUp 0.32s cubic-bezier(0.34,1.4,0.64,1)', padding:'14px 24px', maxWidth:960, width:'100%', margin:'0 auto', boxSizing:'border-box' }}>
+                {step==='welcome'  && <WelcomeChoiceCards onSelect={pickWelcome} />}
+                {step==='recent'   && <RecentServicesInChat onQuickStart={quickStart} onStartNew={startNew} />}
+                {step==='activity' && <OptionCards options={TRADE_OPTIONS} onSelect={o=>pick('activity','mode',o)} />}
+                {step==='mode'     && <OptionCards options={MODE_OPTIONS}  onSelect={o=>pick('mode','cargo',o)} />}
+                {step==='cargo'    && <CargoCards onSelect={o=>pick('cargo','done',o)} />}
+                {step==='search'   && <SearchResults q={inputVal} onSelect={pickSearch} />}
+              </div>
+            )}
+
+            {/* ── Bottom bar (input + back to listing) ── */}
+            <div style={{ flexShrink:0, borderTop:'1px solid rgba(19,96,210,0.07)', background:'rgba(255,255,255,0.97)', padding:'10px 20px', display:'flex', alignItems:'center', gap:10 }}>
+              <button onClick={onClose}
+                style={{ border:'none', borderRadius:8, padding:'9px 16px', fontFamily:font, fontSize:13, fontWeight:500, color:'#1360d2', background:'transparent', cursor:'pointer', display:'flex', alignItems:'center', gap:6, transition:'all 0.18s', whiteSpace:'nowrap', flexShrink:0 }}
+                onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background='#eef4ff';}}
+                onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background='transparent';}}>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                Back to Listing
+              </button>
+              <div style={{ flex:1, display:'flex', alignItems:'center', gap:0, background: isInputStep ? '#fff' : 'rgba(237,238,255,0.4)', border:`1.5px solid ${isInputStep ? '#1360d2' : 'rgba(19,96,210,0.1)'}`, borderRadius:26, overflow:'hidden', transition:'all 0.2s', boxShadow: isInputStep ? '0 0 0 3px rgba(19,96,210,0.08)' : 'none' }}>
+                <input ref={inputRef}
+                  type="text"
+                  placeholder={step==='cargo' ? 'Type cargo type and press Enter…' : step==='search' ? 'Type service name and press Enter…' : 'Select an option above…'}
+                  disabled={!isInputStep}
+                  value={inputVal}
+                  onChange={e => setInputVal(e.target.value)}
+                  onKeyDown={e => e.key==='Enter' && submitInput()}
+                  style={{ flex:1, height:42, background:'transparent', border:'none', padding:'0 16px', fontFamily:font, fontSize:13, color: isInputStep ? '#111838' : '#b0b8d4', outline:'none', cursor: isInputStep ? 'text' : 'default' }} />
+                {isInputStep && (
+                  <button onClick={submitInput} disabled={!inputVal.trim()}
+                    style={{ height:42, width:46, display:'flex', alignItems:'center', justifyContent:'center', background: inputVal.trim() ? '#1360d2' : '#e8eeff', border:'none', cursor: inputVal.trim() ? 'pointer' : 'default', transition:'all 0.18s', flexShrink:0 }}>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke={inputVal.trim() ? '#fff' : '#97a3b8'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </button>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
-      </div>
-
-      {/* Fixed bottom bar */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#fff', boxShadow: '0 -1px 20px rgba(0,0,0,0.07)', height: 70, display: 'flex', alignItems: 'center', padding: '0 40px', zIndex: 201 }}>
-        <button onClick={onClose} style={{ border: '1px solid #1360d2', borderRadius: 6, padding: '10px 24px', fontFamily: font, fontSize: 15, fontWeight: 500, color: '#1360d2', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 7 }}>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          Back to Listing
-        </button>
       </div>
     </div>
   );
 }
+

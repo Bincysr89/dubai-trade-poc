@@ -411,11 +411,6 @@ export default function LandingPage() {
                       group-hover:bg-[#f0f6ff]">
                       {card.icon}
                     </div>
-                    {/* Step number badge */}
-                    <div className="absolute -top-1 -right-1 w-[24px] h-[24px] rounded-full bg-[#0e1b3d] text-white text-[11px] font-bold flex items-center justify-center
-                      group-hover:bg-[#1360d2] transition-colors duration-300">
-                      {card.step}
-                    </div>
                   </div>
 
                   {/* Card body */}

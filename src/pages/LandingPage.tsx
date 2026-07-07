@@ -394,7 +394,7 @@ export default function LandingPage() {
             <div className="relative flex flex-wrap sm:flex-nowrap items-start w-full gap-3">
               {/* Connector line through centre of circles */}
               {activeCards.length > 1 && (
-                <div className="absolute top-[32px] left-[60px] right-[60px] z-[1] pointer-events-none hidden sm:block" style={{ height: '2px', backgroundImage: 'repeating-linear-gradient(to right, #c8d6f0 0px, #c8d6f0 8px, transparent 8px, transparent 16px)' }} />
+                <div className="absolute top-[32px] left-[60px] right-[60px] z-[1] pointer-events-none hidden sm:block" style={{ height: '1.5px', backgroundImage: 'repeating-linear-gradient(to right, #0e1b3d 0px, #0e1b3d 10px, transparent 10px, transparent 20px)' }} />
               )}
 
               {activeCards.map((card) => (

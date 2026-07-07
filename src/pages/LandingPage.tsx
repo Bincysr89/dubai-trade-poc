@@ -35,6 +35,7 @@ type JourneyCard = {
   step: number;
   title: string;
   icon: React.ReactNode;
+  desc?: string;
 };
 
 type SeaPersona = 'shipping-agent' | 'bco' | 'clearing-agent' | 'freight-forwarder' | 'haulier';
@@ -72,74 +73,88 @@ const DischargeListIcon = () => <img src={declarationSrc} alt="" width={ICON} he
 
 type JourneyMap = Record<string, Record<string, JourneyCard[]>>;
 
+const CARD_DESC: Record<string, string> = {
+  'Berth Booking':           'Reserve vessel berths at Dubai ports',
+  'Permits & Certificates':  'Apply for trade permits & regulatory certificates',
+  'Discharge List/Load List':'Manage cargo discharge and load lists',
+  'Manifest':                'Submit and manage cargo manifests',
+  'Trade +':                 'End-to-end trade documentation & declarations',
+  'Payments':                'Process port fees, duties & service charges',
+  'Container Request':       'Request containers for cargo loading',
+  'EDI Management':          'Handle electronic data interchange messages',
+  'Integrated Clearance':    'Streamlined customs clearance in one workflow',
+  'CargoWaves':              'Track and manage cargo movement in real time',
+  'Booking & Execution':     'Book air cargo slots and manage execution',
+};
+
 const SEA_JOURNEYS: JourneyMap = {
   'shipping-agent': {
     import: [
-      { step: 1, title: 'Berth Booking', icon: <BerthBookingIcon size={ICON} /> },
-      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 3, title: 'Discharge List/Load List', icon: <DischargeListIcon /> },
-      { step: 4, title: 'Manifest', icon: <ManifestIcon size={ICON} /> },
-      { step: 5, title: 'Trade +', icon: <TradePlusIcon size={ICON} /> },
-      { step: 6, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Berth Booking', icon: <BerthBookingIcon size={ICON} />, desc: CARD_DESC['Berth Booking'] },
+      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 3, title: 'Discharge List/Load List', icon: <DischargeListIcon />, desc: CARD_DESC['Discharge List/Load List'] },
+      { step: 4, title: 'Manifest', icon: <ManifestIcon size={ICON} />, desc: CARD_DESC['Manifest'] },
+      { step: 5, title: 'Trade +', icon: <TradePlusIcon size={ICON} />, desc: CARD_DESC['Trade +'] },
+      { step: 6, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
     export: [
-      { step: 1, title: 'Berth Booking', icon: <BerthBookingIcon size={ICON} /> },
-      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 3, title: 'Container Request', icon: <EdiIcon size={ICON} /> },
-      { step: 4, title: 'EDI Management', icon: <EdiIcon size={ICON} /> },
-      { step: 5, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Berth Booking', icon: <BerthBookingIcon size={ICON} />, desc: CARD_DESC['Berth Booking'] },
+      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 3, title: 'Container Request', icon: <EdiIcon size={ICON} />, desc: CARD_DESC['Container Request'] },
+      { step: 4, title: 'EDI Management', icon: <EdiIcon size={ICON} />, desc: CARD_DESC['EDI Management'] },
+      { step: 5, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
   },
   bco: {
     import: [
-      { step: 1, title: 'Trade +', icon: <TradePlusIcon size={ICON} /> },
-      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 3, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
-      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
-      { step: 5, title: 'CargoWaves', icon: <CargoWavesIcon /> },
+      { step: 1, title: 'Trade +', icon: <TradePlusIcon size={ICON} />, desc: CARD_DESC['Trade +'] },
+      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 3, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
+      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
+      { step: 5, title: 'CargoWaves', icon: <CargoWavesIcon />, desc: CARD_DESC['CargoWaves'] },
     ],
     export: [
-      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
-      { step: 3, title: 'CargoWaves', icon: <CargoWavesIcon /> },
-      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
+      { step: 3, title: 'CargoWaves', icon: <CargoWavesIcon />, desc: CARD_DESC['CargoWaves'] },
+      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
   },
   'clearing-agent': {
     import: [
-      { step: 1, title: 'Trade +', icon: <TradePlusIcon size={ICON} /> },
-      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 3, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
-      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
-      { step: 5, title: 'CargoWaves', icon: <CargoWavesIcon /> },
+      { step: 1, title: 'Trade +', icon: <TradePlusIcon size={ICON} />, desc: CARD_DESC['Trade +'] },
+      { step: 2, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 3, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
+      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
+      { step: 5, title: 'CargoWaves', icon: <CargoWavesIcon />, desc: CARD_DESC['CargoWaves'] },
     ],
     export: [
-      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
-      { step: 3, title: 'CargoWaves', icon: <CargoWavesIcon /> },
-      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
+      { step: 3, title: 'CargoWaves', icon: <CargoWavesIcon />, desc: CARD_DESC['CargoWaves'] },
+      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
   },
   'freight-forwarder': {
     import: [
-      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 2, title: 'Manifest', icon: <ManifestIcon size={ICON} /> },
-      { step: 3, title: 'Trade +', icon: <TradePlusIcon size={ICON} /> },
-      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 2, title: 'Manifest', icon: <ManifestIcon size={ICON} />, desc: CARD_DESC['Manifest'] },
+      { step: 3, title: 'Trade +', icon: <TradePlusIcon size={ICON} />, desc: CARD_DESC['Trade +'] },
+      { step: 4, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
     export: [
-      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon /> },
-      { step: 2, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Permits & Certificates', icon: <PermitsIcon />, desc: CARD_DESC['Permits & Certificates'] },
+      { step: 2, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
   },
   haulier: {
     import: [
-      { step: 1, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
-      { step: 2, title: 'CargoWaves', icon: <CargoWavesIcon /> },
+      { step: 1, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
+      { step: 2, title: 'CargoWaves', icon: <CargoWavesIcon />, desc: CARD_DESC['CargoWaves'] },
     ],
     export: [
-      { step: 1, title: 'CargoWaves', icon: <CargoWavesIcon /> },
-      { step: 2, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'CargoWaves', icon: <CargoWavesIcon />, desc: CARD_DESC['CargoWaves'] },
+      { step: 2, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
   },
 };
@@ -147,24 +162,24 @@ const SEA_JOURNEYS: JourneyMap = {
 const AIR_JOURNEYS: JourneyMap = {
   'freight-forwarder': {
     import: [
-      { step: 1, title: 'Booking & Execution', icon: <BookingExecutionIcon size={ICON} /> },
-      { step: 2, title: 'Trade +', icon: <TradePlusIcon size={ICON} /> },
-      { step: 3, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
+      { step: 1, title: 'Booking & Execution', icon: <BookingExecutionIcon size={ICON} />, desc: CARD_DESC['Booking & Execution'] },
+      { step: 2, title: 'Trade +', icon: <TradePlusIcon size={ICON} />, desc: CARD_DESC['Trade +'] },
+      { step: 3, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
     ],
     export: [
-      { step: 1, title: 'Booking & Execution', icon: <BookingExecutionIcon size={ICON} /> },
-      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
+      { step: 1, title: 'Booking & Execution', icon: <BookingExecutionIcon size={ICON} />, desc: CARD_DESC['Booking & Execution'] },
+      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
     ],
   },
   bco: {
     import: [
-      { step: 1, title: 'Trade +', icon: <TradePlusIcon size={ICON} /> },
-      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
-      { step: 3, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Trade +', icon: <TradePlusIcon size={ICON} />, desc: CARD_DESC['Trade +'] },
+      { step: 2, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
+      { step: 3, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
     export: [
-      { step: 1, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} /> },
-      { step: 2, title: 'Payments', icon: <PaymentsIcon size={ICON} /> },
+      { step: 1, title: 'Integrated Clearance', icon: <IntegratedClearanceIcon size={ICON} />, desc: CARD_DESC['Integrated Clearance'] },
+      { step: 2, title: 'Payments', icon: <PaymentsIcon size={ICON} />, desc: CARD_DESC['Payments'] },
     ],
   },
 };
@@ -372,57 +387,43 @@ export default function LandingPage() {
 
             <div className="border-t border-[#ddd] mb-8" />
 
-            {/* Journey cards */}
-            <div className="relative flex flex-wrap sm:flex-nowrap justify-between items-start w-full gap-4 sm:gap-0">
-              {/* Dashed line: from centre of first circle to centre of last circle */}
+            {/* Journey cards — new design */}
+            <div className="relative flex flex-wrap sm:flex-nowrap items-stretch w-full gap-3">
+              {/* Connector line between cards */}
               {activeCards.length > 1 && (
-                <div className="absolute top-[27px] left-[100px] right-[100px] z-0 pointer-events-none hidden sm:block" style={{ height: '1.5px', backgroundImage: 'repeating-linear-gradient(to right, #0e1b3d 0px, #0e1b3d 10px, transparent 10px, transparent 20px)' }} />
+                <div className="absolute top-[44px] left-[calc(50px)] right-[calc(50px)] z-0 pointer-events-none hidden sm:block" style={{ height: '2px', backgroundImage: 'repeating-linear-gradient(to right, #c8d6f0 0px, #c8d6f0 8px, transparent 8px, transparent 16px)' }} />
               )}
 
               {activeCards.map((card, idx) => (
                 <div
                   key={card.step}
-                  className="group flex flex-col items-center w-full sm:w-[200px] cursor-pointer"
+                  className="group relative flex flex-col items-center flex-1 min-w-[140px] cursor-pointer"
+                  style={{ zIndex: 1 }}
                   onClick={() => {
                     if (card.title === 'Integrated Clearance') { setShowIntegratedClearance(false); setShowDeclarationList(true); }
                     if (card.title === 'Permits & Certificates') setShowPermits(true);
                   }}
                 >
-
-                  {/* Step circle — z-20 so it stays above the rising card */}
-                  <div className="relative z-20 size-[55px] rounded-full border-2 flex items-center justify-center font-medium text-[20px] flex-shrink-0 select-none transition-all duration-300
-                    bg-white text-[#0e1b3d] border-[#ddd]
-                    group-hover:bg-[#3e4964] group-hover:text-white group-hover:border-[#3e4964]">
-                    {card.step}
+                  {/* Icon circle with step badge */}
+                  <div className="relative mb-3 z-10">
+                    <div className="w-[88px] h-[88px] rounded-full bg-white border-2 border-[#e2eaf8] flex items-center justify-center transition-all duration-300
+                      group-hover:border-[#1360d2] group-hover:shadow-[0_4px_20px_rgba(19,96,210,0.18)]
+                      group-hover:bg-[#f0f6ff]">
+                      {card.icon}
+                    </div>
+                    {/* Step number badge */}
+                    <div className="absolute -top-1 -right-1 w-[24px] h-[24px] rounded-full bg-[#0e1b3d] text-white text-[11px] font-bold flex items-center justify-center
+                      group-hover:bg-[#1360d2] transition-colors duration-300">
+                      {card.step}
+                    </div>
                   </div>
 
-                  {/* Fixed 12px gap */}
-                  <div className="h-3 flex-shrink-0" />
-
-                  {/* Card — rises upward on hover */}
-                  <div className="relative w-full z-10 rounded-[4px] overflow-hidden transition-all duration-300 ease-in-out
-                    h-[160px] bg-white border border-[#ddd]
-                    group-hover:-translate-y-[85px] group-hover:h-[265px]
-                    group-hover:bg-white group-hover:border-[rgba(234,36,40,0.6)]
-                    group-hover:shadow-[0_8px_32px_-4px_rgba(14,27,61,0.15)]">
-
-                    {/* Content — padding-top grows on hover to sit below the enclosed circle */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-start transition-all duration-300
-                      pt-[30px] group-hover:pt-[95px]">
-                      <div className="mb-4">{card.icon}</div>
-                      <p className="font-medium text-[16px] group-hover:text-[18px] text-[#0e1b3d] text-center px-3 leading-tight transition-all duration-300">{card.title}</p>
-                      <div className="w-[28px] h-[2px] mt-2 transition-colors duration-300 bg-[#0e1b3d] group-hover:bg-[#ea2428]" />
-                    </div>
-
-                    {/* Red bottom arc — SVG smile curve */}
-                    <svg
-                      className="absolute bottom-0 left-0 w-full pointer-events-none opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                      height="36"
-                      viewBox="0 0 200 36"
-                      preserveAspectRatio="none"
-                    >
-                      <path d="M 0 0 Q 100 36 200 0" fill="none" stroke="rgba(234,36,40,0.65)" strokeWidth="2" />
-                    </svg>
+                  {/* Card body */}
+                  <div className="w-full bg-white border border-[#e6edf8] rounded-[10px] px-3 pt-4 pb-4 text-center transition-all duration-300
+                    group-hover:border-[#1360d2] group-hover:shadow-[0_6px_24px_rgba(19,96,210,0.12)]">
+                    <p className="font-semibold text-[14px] text-[#0e1b3d] leading-tight mb-2">{card.title}</p>
+                    <div className="w-6 h-[2px] bg-[#ea2428] mx-auto mb-2 rounded-full" />
+                    <p className="text-[12px] text-[#6b7a99] leading-snug">{card.desc}</p>
                   </div>
                 </div>
               ))}

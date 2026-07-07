@@ -65,7 +65,7 @@ const FAVOURITE_SERVICES = [
   'Correct Discharge List',
 ];
 
-const ICON = 40;
+const ICON = 30;
 
 const PermitsIcon = () => <IntegratedClearanceIcon size={ICON} />;
 const CargoWavesIcon = () => <img src={cargoWavesSrc} alt="" width={ICON} height={ICON} style={{ width: ICON, height: ICON }} />;
@@ -348,77 +348,94 @@ export default function LandingPage() {
             <h3 className="text-[#051937] text-[24px] font-medium mb-2">{journeyTitle}</h3>
             <div className="w-[40px] h-[3px] bg-[#ea2428] mb-6" />
 
-            {/* Import / Export toggle */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="bg-white border border-[#ddd] rounded flex w-[153px] h-[40px] p-[3px]">
+            {/* Import / Export + Sea / Air toggles */}
+            <div className="flex items-center gap-3 mb-6 flex-wrap">
+              {/* Import / Export pill toggle */}
+              <div className="flex bg-[#f0f4fa] rounded-full p-[3px] gap-1">
                 <button
                   onClick={() => setTradeMode('import')}
-                  className={`flex-1 rounded text-[16px] ${tradeMode === 'import' ? 'bg-[#0e1b3d] text-white' : 'text-[#0e1b3d]'}`}
+                  className={`px-5 py-1.5 rounded-full text-[14px] font-medium transition-all duration-200 ${tradeMode === 'import' ? 'bg-[#0e1b3d] text-white shadow-sm' : 'text-[#5a6480] hover:text-[#0e1b3d]'}`}
                 >
                   Import
                 </button>
                 <button
                   onClick={() => setTradeMode('export')}
-                  className={`flex-1 rounded text-[16px] ${tradeMode === 'export' ? 'bg-[#0e1b3d] text-white' : 'text-[#0e1b3d]'}`}
+                  className={`px-5 py-1.5 rounded-full text-[14px] font-medium transition-all duration-200 ${tradeMode === 'export' ? 'bg-[#0e1b3d] text-white shadow-sm' : 'text-[#5a6480] hover:text-[#0e1b3d]'}`}
                 >
                   Export
                 </button>
               </div>
-            </div>
 
-            {/* Sea / Air toggle */}
-            <div className="flex items-center gap-12 mb-4">
-              <button
-                onClick={() => !config.airOnly && setMode('sea')}
-                disabled={config.airOnly}
-                className={`flex items-center gap-2 text-[#051937] text-[20px] ${mode === 'sea' ? '' : 'opacity-40'}`}
-              >
-                <img src={seaIconSrc} alt="" className="w-[28px] h-[28px]" />
-                Sea
-              </button>
-              <button
-                onClick={() => setMode('air')}
-                className={`flex items-center gap-2 text-[#051937] text-[20px] ${mode === 'air' ? '' : 'opacity-40'}`}
-              >
-                <img src={airIconSrc} alt="" className="w-[28px] h-[28px]" />
-                Air
-              </button>
-            </div>
+              <div className="w-px h-6 bg-[#dde3ee]" />
 
-            <div className="border-t border-[#ddd] mb-8" />
+              {/* Sea / Air pill toggle */}
+              <div className="flex bg-[#f0f4fa] rounded-full p-[3px] gap-1">
+                <button
+                  onClick={() => !config.airOnly && setMode('sea')}
+                  disabled={config.airOnly}
+                  className={`flex items-center gap-2 px-5 py-1.5 rounded-full text-[14px] font-medium transition-all duration-200 ${mode === 'sea' ? 'bg-white text-[#0e1b3d] shadow-sm border border-[#dde3ee]' : 'text-[#5a6480] hover:text-[#0e1b3d]'} ${config.airOnly ? 'opacity-30 cursor-not-allowed' : ''}`}
+                >
+                  <img src={seaIconSrc} alt="" className="w-[18px] h-[18px]" />
+                  Sea
+                </button>
+                  <button
+                    onClick={() => setMode('air')}
+                    className={`flex items-center gap-2 px-5 py-1.5 rounded-full text-[14px] font-medium transition-all duration-200 ${mode === 'air' ? 'bg-white text-[#0e1b3d] shadow-sm border border-[#dde3ee]' : 'text-[#5a6480] hover:text-[#0e1b3d]'}`}
+                  >
+                    <img src={airIconSrc} alt="" className="w-[18px] h-[18px]" />
+                    Air
+                  </button>
+                </div>
+              </div>
 
-            {/* Journey cards — new design */}
-            <div className="relative flex flex-wrap sm:flex-nowrap items-stretch w-full gap-3">
-              {/* Connector line between cards */}
+            <div className="border-t border-[#dde3ee] mb-8" />
+
+            {/* Journey cards — icon circle + expanding card on hover */}
+            <div className="relative flex flex-wrap sm:flex-nowrap items-start w-full gap-3">
+              {/* Connector line through centre of circles */}
               {activeCards.length > 1 && (
-                <div className="absolute top-[44px] left-[calc(50px)] right-[calc(50px)] z-0 pointer-events-none hidden sm:block" style={{ height: '2px', backgroundImage: 'repeating-linear-gradient(to right, #c8d6f0 0px, #c8d6f0 8px, transparent 8px, transparent 16px)' }} />
+                <div className="absolute top-[32px] left-[60px] right-[60px] z-[1] pointer-events-none hidden sm:block" style={{ height: '2px', backgroundImage: 'repeating-linear-gradient(to right, #c8d6f0 0px, #c8d6f0 8px, transparent 8px, transparent 16px)' }} />
               )}
 
-              {activeCards.map((card, idx) => (
+              {activeCards.map((card) => (
                 <div
                   key={card.step}
-                  className="group relative flex flex-col items-center flex-1 min-w-[140px] cursor-pointer"
-                  style={{ zIndex: 1 }}
+                  className="group relative flex flex-col items-center flex-1 min-w-[120px] cursor-pointer z-[2]"
                   onClick={() => {
                     if (card.title === 'Integrated Clearance') { setShowIntegratedClearance(false); setShowDeclarationList(true); }
                     if (card.title === 'Permits & Certificates') setShowPermits(true);
                   }}
                 >
-                  {/* Icon circle with step badge */}
-                  <div className="relative mb-3 z-10">
-                    <div className="w-[88px] h-[88px] rounded-full bg-white border-2 border-[#e2eaf8] flex items-center justify-center transition-all duration-300
-                      group-hover:border-[#1360d2] group-hover:shadow-[0_4px_20px_rgba(19,96,210,0.18)]
-                      group-hover:bg-[#f0f6ff]">
-                      {card.icon}
-                    </div>
+                  {/* Icon circle — z-20 stays above rising card */}
+                  <div className="relative z-[20] w-[65px] h-[65px] rounded-full bg-white border-2 border-[#ddd] flex items-center justify-center flex-shrink-0 transition-all duration-300
+                    group-hover:border-[#ea2428] group-hover:shadow-[0_4px_16px_rgba(234,36,40,0.15)]">
+                    {card.icon}
                   </div>
 
-                  {/* Card body */}
-                  <div className="w-full bg-white border border-[#e6edf8] rounded-[10px] px-3 pt-4 pb-4 text-center transition-all duration-300
-                    group-hover:border-[#1360d2] group-hover:shadow-[0_6px_24px_rgba(19,96,210,0.12)]">
-                    <p className="font-semibold text-[14px] text-[#0e1b3d] leading-tight mb-2">{card.title}</p>
-                    <div className="w-6 h-[2px] bg-[#ea2428] mx-auto mb-2 rounded-full" />
-                    <p className="text-[12px] text-[#6b7a99] leading-snug">{card.desc}</p>
+                  {/* Gap */}
+                  <div className="h-3 flex-shrink-0" />
+
+                  {/* Card — rises upward behind circle on hover */}
+                  <div className="relative w-full z-[5] rounded-[6px] overflow-hidden transition-all duration-300 ease-in-out
+                    h-[180px] bg-white border border-[#e6edf8]
+                    group-hover:-translate-y-[73px] group-hover:h-[270px]
+                    group-hover:border-[rgba(234,36,40,0.6)] group-hover:shadow-[0_8px_32px_-4px_rgba(14,27,61,0.15)]">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center px-3 text-center transition-all duration-300
+                      group-hover:pt-[70px]">
+                      <p className="text-[#0e1b3d] leading-tight mb-2" style={{ fontSize: 20, fontWeight: 500 }}>{card.title}</p>
+                      <div className="w-6 h-[2px] bg-[#ea2428] mx-auto rounded-full mb-2" />
+                      <p className="text-[14px] text-[#6b7a99] leading-snug">{card.desc}</p>
+                      <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea2428" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12h14M13 6l6 6-6 6"/>
+                        </svg>
+                      </div>
+                    </div>
+                    {/* Blue bottom arc on hover */}
+                    <svg className="absolute bottom-0 left-0 w-full pointer-events-none opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      height="36" viewBox="0 0 200 36" preserveAspectRatio="none">
+                      <path d="M 0 0 Q 100 36 200 0" fill="none" stroke="rgba(234,36,40,0.65)" strokeWidth="2" />
+                    </svg>
                   </div>
                 </div>
               ))}

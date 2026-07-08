@@ -542,7 +542,7 @@ function SearchServiceCard({ permit, onRestart }: { permit: { label: string; aut
   return (
     <div style={{ animation:'slideUp 0.35s ease', display:'flex', flexDirection:'column', gap:14 }}>
       {/* Service card */}
-      <div style={{ background:'linear-gradient(135deg,#eef4ff,#e8f0fb)', border:'1px solid #dce8ff', borderRadius:16, padding:'18px 22px', boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
+      <div style={{ background:'#fff', border:'1.5px solid #1360d2', borderRadius:16, padding:'18px 22px', boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
         <div style={{ display:'flex', alignItems:'flex-start', gap:14 }}>
           <div style={{ width:44, height:44, borderRadius:12, background:'#eaf1ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1360d2" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>

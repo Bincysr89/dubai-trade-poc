@@ -540,10 +540,10 @@ function SearchServiceCard({ permit, onRestart }: { permit: { label: string; aut
     },
     {
       key: 'info',
-      label: 'Service Information',
+      label: '',
       desc: 'Learn about requirements and eligibility',
-      icon: (<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg>),
-      bg: '#fff', color: '#0e1b3d', border: '1.5px solid #dde3f0',
+      icon: (<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#5a6478" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" title="Service Info"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg>),
+      bg: '#fff', color: '#5a6478', border: '1.5px solid #e2eaf8',
     },
   ];
 
@@ -638,8 +638,8 @@ function DoneWithPrepare({ answers, onRestart }: { answers: Record<string,string
       icon:<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> },
     { label:'View Requests', bg:'#fff', color:'#1360d2', border:'1.5px solid #1360d2', shadow:'none',
       icon:<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg> },
-    { label:'Service Info', bg:'#fff', color:'#5a6478', border:'1.5px solid #e2eaf8', shadow:'none',
-      icon:<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg> },
+    { label:'', bg:'#fff', color:'#5a6478', border:'1.5px solid #e2eaf8', shadow:'none',
+      icon:<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#5a6478" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" title="Service Info"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg> },
   ];
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:10, animation:'msgIn 0.35s ease' }}>

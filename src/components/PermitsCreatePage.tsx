@@ -245,14 +245,6 @@ const WELCOME_CHOICES = [
     glow: 'rgba(3,105,161,0.45)',
     icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>),
   },
-  {
-    key: 'prepare',
-    label: 'Prepare in Advance',
-    desc: 'Secure approvals before your goods arrive',
-    grad: 'linear-gradient(145deg, rgb(21,96,168) 0%, #0ea5e9 100%)',
-    glow: 'rgba(14,165,233,0.45)',
-    icon: (<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>),
-  },
 ];
 
 function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: string) => void }) {

@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import ServiceCatalogueModal from '../components/ServiceCatalogueModal';
 import IntegratedClearanceModal from '../components/IntegratedClearanceModal';
 import PermitsCertificatesPage from '../components/PermitsCertificatesPage';
+import PermitsCreatePage from '../components/PermitsCreatePage';
 import DeclarationListPage from '../components/DeclarationListPage';
 import DdoFlow from '../components/ddo/DdoFlow';
 import DdoRecordsPage, { type DdoRecordStatus } from '../components/ddo/DdoRecordsPage';
@@ -220,6 +221,7 @@ export default function LandingPage() {
   const [showServiceCatalogue, setShowServiceCatalogue] = useState(false);
   const [showIntegratedClearance, setShowIntegratedClearance] = useState(false);
   const [showPermits, setShowPermits] = useState(false);
+  const [showPermitsCreate, setShowPermitsCreate] = useState(false);
   const [showDeclarationList, setShowDeclarationList] = useState(false);
   const [showDdoFlow, setShowDdoFlow] = useState(false);
   const [showDdoRecords, setShowDdoRecords] = useState(false);
@@ -403,7 +405,7 @@ export default function LandingPage() {
                   className="group relative flex flex-col items-center flex-1 min-w-[120px] cursor-pointer z-[2]"
                   onClick={() => {
                     if (card.title === 'Integrated Clearance') { setShowIntegratedClearance(false); setShowDeclarationList(true); }
-                    if (card.title === 'Permits & Certificates') setShowPermits(true);
+                    if (card.title === 'Permits & Certificates') setShowPermitsCreate(true);
                   }}
                 >
                   {/* Icon circle — z-20 stays above rising card */}
@@ -450,6 +452,7 @@ export default function LandingPage() {
       )}
 
       {showPermits && <PermitsCertificatesPage onClose={() => setShowPermits(false)} />}
+      {showPermitsCreate && <PermitsCreatePage onClose={() => setShowPermitsCreate(false)} />}
       {showServiceCatalogue && <ServiceCatalogueModal onClose={() => setShowServiceCatalogue(false)} />}
 
       {showDeclarationList && (

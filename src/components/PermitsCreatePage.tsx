@@ -139,55 +139,33 @@ const STYLES = `
   .chat-scroll::-webkit-scrollbar-track{background:transparent}
 `;
 
-/* ── AI Orb avatar — wave vortex ── */
-const WAVE_RINGS = [
-  { rx:14, ry:5.5, color:'rgba(99,102,241,0.75)',  rot:0,   dur:'7s',  ccw:false },
-  { rx:13, ry:6.5, color:'rgba(6,182,212,0.65)',   rot:40,  dur:'9s',  ccw:true  },
-  { rx:15, ry:4.5, color:'rgba(167,139,250,0.65)', rot:80,  dur:'6s',  ccw:false },
-  { rx:12, ry:7,   color:'rgba(52,211,153,0.55)',  rot:120, dur:'11s', ccw:true  },
-  { rx:14, ry:5,   color:'rgba(99,102,241,0.5)',   rot:160, dur:'8s',  ccw:false },
-  { rx:13, ry:6,   color:'rgba(6,182,212,0.55)',   rot:200, dur:'10s', ccw:true  },
-  { rx:15, ry:4,   color:'rgba(167,139,250,0.45)', rot:240, dur:'7s',  ccw:false },
-  { rx:11, ry:7.5, color:'rgba(52,211,153,0.4)',   rot:280, dur:'9s',  ccw:true  },
-  { rx:14, ry:5.5, color:'rgba(99,102,241,0.35)',  rot:320, dur:'12s', ccw:false },
-];
-
+/* ── Bot avatar — circle gradient with bot icon ── */
 function AiOrb({ size = 36, thinking = false }: { size?: number; thinking?: boolean }) {
-  const spd = thinking ? 0.35 : 1;
+  const iconSize = Math.round(size * 0.52);
   return (
     <div style={{ position:'relative', width:size, height:size, flexShrink:0 }}>
       {thinking && [0,1,2].map(i => (
-        <div key={i} style={{ position:'absolute', inset:-(size*0.28), borderRadius:'50%', border:'1.5px solid rgba(99,102,241,0.28)', animation:'ripple 2s ease-out infinite', animationDelay:`${i*0.6}s`, pointerEvents:'none' }} />
+        <div key={i} style={{ position:'absolute', inset:-(size*0.22), borderRadius:'50%', border:'1.5px solid rgba(19,96,210,0.22)', animation:'ripple 2s ease-out infinite', animationDelay:`${i*0.6}s`, pointerEvents:'none' }} />
       ))}
       <div style={{
         width:size, height:size, borderRadius:'50%',
-        background:'radial-gradient(circle at 32% 28%, #93c5fd 0%, #3b82f6 22%, #1360d2 52%, #0e1b3d 100%)',
-        animation:`orbGlow ${thinking?'1.1s':'3.5s'} ease infinite, float 4s ease infinite`,
+        background:'linear-gradient(145deg, #1560a8 0%, #0ea5e9 100%)',
+        animation:`orbGlow ${thinking?'1.1s':'3.5s'} ease infinite`,
         display:'flex', alignItems:'center', justifyContent:'center',
-        position:'relative', overflow:'hidden', flexShrink:0,
-        boxShadow:`0 ${size*0.1}px ${size*0.35}px rgba(19,96,210,0.38)`,
+        position:'relative', flexShrink:0,
+        boxShadow:`0 ${size*0.1}px ${size*0.3}px rgba(14,165,233,0.45)`,
       }}>
-        {/* Wave vortex rings */}
-        <svg viewBox="0 0 40 40" style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
-          {WAVE_RINGS.map((r, i) => (
-            <ellipse key={i} cx="20" cy="20" rx={r.rx} ry={r.ry} fill="none"
-              stroke={r.color} strokeWidth={thinking ? 0.9 : 0.65}
-              style={{
-                transformOrigin:'20px 20px',
-                transform:`rotate(${r.rot}deg)`,
-                animation:`${r.ccw?'spinCCW':'spinCW'} ${parseFloat(r.dur)*spd}s linear infinite`,
-                animationDelay:`-${i * 0.9}s`,
-              }} />
-          ))}
-          {/* Center glow core */}
-          <circle cx="20" cy="20" r="5.5" fill="rgba(19,96,210,0.45)"
-            style={{ animation:'coreGlow 2.5s ease infinite' }} />
-          <circle cx="20" cy="20" r="5.5" fill="none"
-            stroke="rgba(255,255,255,0.45)" strokeWidth="0.6"
-            style={{ animation:'coreGlow 2.5s ease infinite' }} />
+        {/* Bot icon */}
+        <svg viewBox="0 0 24 24" width={iconSize} height={iconSize} fill="none" stroke="rgba(255,255,255,0.95)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="8" width="18" height="12" rx="3"/>
+          <path d="M9 12h.01M15 12h.01"/>
+          <path d="M9 16h6"/>
+          <path d="M12 8V5"/>
+          <circle cx="12" cy="4" r="1.2" fill="rgba(255,255,255,0.95)" stroke="none"/>
+          <path d="M6 8V7a2 2 0 012-2h8a2 2 0 012 2v1"/>
         </svg>
-        {/* Soft inner highlight */}
-        <div style={{ position:'absolute', top:'8%', left:'14%', width:'36%', height:'26%', background:'rgba(255,255,255,0.28)', borderRadius:'50%', filter:`blur(${size*0.06}px)`, zIndex:2 }} />
+        {/* Highlight */}
+        <div style={{ position:'absolute', top:'10%', left:'16%', width:'32%', height:'22%', background:'rgba(255,255,255,0.25)', borderRadius:'50%', filter:`blur(${size*0.05}px)` }} />
       </div>
     </div>
   );
@@ -281,7 +259,7 @@ const WELCOME_CHOICES = [
 function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: string) => void }) {
   const [hov, setHov] = useState('');
   return (
-    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+    <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:10 }}>
       {WELCOME_CHOICES.map((c, idx) => {
         const isH = hov === c.key;
         return (
@@ -291,22 +269,22 @@ function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: strin
               animation:`chipIn 0.4s cubic-bezier(0.34,1.4,0.64,1) both`,
               animationDelay:`${idx*80}ms`,
               display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-              gap:14, width:'100%', minHeight:160,
+              gap:10, width:'100%', minHeight:130,
               background: c.grad,
               border:'none',
-              borderRadius:22, padding:'24px 16px',
+              borderRadius:18, padding:'18px 12px',
               cursor:'pointer', transition:'all 0.22s cubic-bezier(0.34,1.4,0.64,1)',
               boxShadow: isH
                 ? `0 12px 36px ${c.glow}, 0 4px 12px ${c.glow}`
                 : `0 4px 20px ${c.glow.replace('0.45','0.25')}`,
-              transform: isH ? 'translateY(-6px) scale(1.04)' : 'none',
+              transform: isH ? 'translateY(-5px) scale(1.03)' : 'none',
             }}>
-            <div style={{ width:56, height:56, borderRadius:16, background:'rgba(255,255,255,0.15)', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH?'0 0 24px rgba(255,255,255,0.2)':'none' }}>
+            <div style={{ width:44, height:44, borderRadius:12, background:'rgba(255,255,255,0.15)', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH?'0 0 20px rgba(255,255,255,0.2)':'none' }}>
               {c.icon}
             </div>
             <div style={{ textAlign:'center' }}>
-              <div style={{ fontFamily:font, fontSize:15, fontWeight:700, color:'#fff', lineHeight:1.3, marginBottom:6 }}>{c.label}</div>
-              <div style={{ fontFamily:font, fontSize:12, color:'rgba(255,255,255,0.72)', lineHeight:1.45 }}>{c.desc}</div>
+              <div style={{ fontFamily:font, fontSize:13, fontWeight:700, color:'#fff', lineHeight:1.3, marginBottom:4 }}>{c.label}</div>
+              <div style={{ fontFamily:font, fontSize:11, color:'rgba(255,255,255,0.72)', lineHeight:1.4 }}>{c.desc}</div>
             </div>
           </button>
         );

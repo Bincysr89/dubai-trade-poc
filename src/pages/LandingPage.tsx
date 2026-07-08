@@ -405,7 +405,7 @@ export default function LandingPage() {
                   className="group relative flex flex-col items-center flex-1 min-w-[120px] cursor-pointer z-[2]"
                   onClick={() => {
                     if (card.title === 'Integrated Clearance') { setShowIntegratedClearance(false); setShowDeclarationList(true); }
-                    if (card.title === 'Permits & Certificates') setShowPermitsCreate(true);
+                    if (card.title === 'Permits & Certificates') setShowPermits(true);
                   }}
                 >
                   {/* Icon circle — z-20 stays above rising card */}

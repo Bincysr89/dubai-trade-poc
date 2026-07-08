@@ -102,15 +102,19 @@ const AUTHORITY_COLORS: Record<string, { bg: string; text: string; border: strin
 };
 const authorityStyle = (a: string) => AUTHORITY_COLORS[a] ?? { bg: '#eef4ff', text: '#1360d2', border: '#c0d4f8' };
 
-type Step = 'welcome' | 'recent' | 'search' | 'activity' | 'mode' | 'cargo' | 'done' | 'prepare';
-const STEP_META = {
-  welcome:  { question: "Hi! How would you like to find a permit or certificate today?" },
-  recent:   { question: "Here are your recently applied services. Re-apply or start fresh." },
-  search:   { question: "What service are you looking for? I'll search for it." },
-  activity: { question: 'What are you looking to do?' },
-  mode:     { question: 'How will your cargo travel?' },
-  cargo:    { question: 'What type of cargo are you shipping?' },
-  prepare:  { question: 'Let\'s prepare your permits in advance. What type of goods are you importing?' },
+type Step = 'welcome' | 'recent' | 'search' | 'activity' | 'mode' | 'cargo' | 'done' | 'prepare' | 'p-activity' | 'p-mode' | 'p-cargo' | 'p-info' | 'p-steps';
+const STEP_META: Record<string, { question: string }> = {
+  welcome:    { question: "Hi! How would you like to find a permit or certificate today?" },
+  recent:     { question: "Here are your recently applied services. Re-apply or start fresh." },
+  search:     { question: "What service are you looking for? I'll search for it." },
+  activity:   { question: 'What are you looking to do?' },
+  mode:       { question: 'How will your cargo travel?' },
+  cargo:      { question: 'What type of cargo are you shipping?' },
+  prepare:    { question: 'Great! Let\'s prepare your permits in advance to speed up clearance.' },
+  'p-activity': { question: 'What are you looking to do?' },
+  'p-mode':     { question: 'How will your cargo travel?' },
+  'p-cargo':    { question: 'What type of cargo are you shipping?' },
+  'p-info':     { question: 'Here\'s what you\'ll need to prepare in advance.' },
 };
 
 /* ── Animations ── */
@@ -375,106 +379,123 @@ function CargoCards({ onSelect }: { onSelect: (o: any) => void }) {
 }
 
 /* ── Prepare in Advance card (Figma design) ── */
-const PREPARE_CARGO_TYPES = [
-  { key: 'food',      label: 'Food Products',   icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg> },
-  { key: 'consumer',  label: 'Consumer Goods',  icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> },
-  { key: 'pharma',    label: 'Pharmaceuticals', icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> },
-  { key: 'animals',   label: 'Live Animals',    icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M8 12c-4 1-6 4-6 6h20c0-2-2-5-6-6"/></svg> },
-  { key: 'chemicals', label: 'Chemicals',       icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6v11l3.5 6H5.5L9 14V3z"/><line x1="9" y1="3" x2="15" y2="3"/></svg> },
-  { key: 'other',     label: 'Other',           icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg> },
-];
-
-const PREPARE_AUTHORITIES_MAP: Record<string, string[]> = {
-  food:      ['Dubai Municipality', 'MOCCAE'],
-  consumer:  ['Dubai Municipality', 'Dubai Customs'],
-  pharma:    ['DCAA', 'Dubai Municipality'],
-  animals:   ['MOCCAE', 'Dubai Police'],
-  chemicals: ['Civil Defence', 'DCAA'],
-  other:     ['Dubai Customs', 'Dubai Municipality'],
+const PREPARE_STEPS_MAP: Record<string, { step: string; label: string; authority: string }[]> = {
+  'Food Consignment': [
+    { step:'1', label:'Product Registration',                              authority:'Dubai Municipality' },
+    { step:'2', label:'Register and Access a Food Item',                   authority:'Dubai Municipality' },
+    { step:'3', label:'Request to Transfer Food Consignment',              authority:'Dubai Municipality' },
+    { step:'4', label:'Release of Imported Food Consignments',             authority:'Dubai Municipality' },
+    { step:'5', label:'Apply for Food Health Certificate',                 authority:'Dubai Municipality' },
+  ],
+  'Veterinary Consignments': [
+    { step:'1', label:'Veterinary Import Permit',                          authority:'MOCCAE' },
+    { step:'2', label:'Veterinary Health Certificate',                     authority:'MOCCAE' },
+    { step:'3', label:'Release of Imported Consignments for Re-Export',    authority:'Dubai Municipality' },
+  ],
+  'Consumer Goods': [
+    { step:'1', label:'Product Conformity Certificate',                    authority:'Dubai Municipality' },
+    { step:'2', label:'Release of Importer Consignments for Local Market', authority:'Dubai Customs' },
+  ],
+  'Pharmaceuticals': [
+    { step:'1', label:'Product Registration with Health Authority',        authority:'DCAA' },
+    { step:'2', label:'Pharmaceutical Import Permit',                      authority:'DCAA' },
+    { step:'3', label:'Health Certificate for Medical Products',           authority:'Dubai Municipality' },
+  ],
+  'Live Animals': [
+    { step:'1', label:'CITES Import / Export Permit',                      authority:'MOCCAE' },
+    { step:'2', label:'Veterinary Health Certificate',                     authority:'MOCCAE' },
+    { step:'3', label:'Quarantine Clearance Certificate',                  authority:'MOCCAE' },
+  ],
+  'Chemicals & Hazardous': [
+    { step:'1', label:'Hazardous Material Safety Assessment',              authority:'Civil Defence' },
+    { step:'2', label:'Hazardous Material Certificate',                    authority:'Civil Defence' },
+    { step:'3', label:'Dangerous Goods Declaration',                       authority:'DCAA' },
+  ],
+  'Fire Arms': [
+    { step:'1', label:'Controlled Goods Import Approval',                  authority:'Ministry of Economy' },
+    { step:'2', label:'Firearm Import / Export Permit',                    authority:'Dubai Police' },
+  ],
+  'Other Goods': [
+    { step:'1', label:'Trade Documentation Check',                         authority:'Dubai Customs' },
+    { step:'2', label:'General Trade Clearance',                           authority:'Dubai Customs' },
+  ],
 };
 
-function PrepareInAdvanceCard({ onStart }: { onStart: (cargo: string) => void }) {
-  const [selected, setSelected] = useState<string[]>([]);
-  const authorities = Array.from(new Set(selected.flatMap(k => PREPARE_AUTHORITIES_MAP[k] ?? [])));
-
-  const toggle = (key: string) =>
-    setSelected(s => s.includes(key) ? s.filter(x => x !== key) : [...s, key]);
+function PrepareInfoPanel({ answers, onKnow, onShowSteps, onStart }: {
+  answers: Record<string, string>;
+  onKnow: () => void;
+  onShowSteps: () => void;
+  onStart: () => void;
+  showSteps?: boolean;
+}) {
+  const cargo = answers['p-cargo'] ?? 'Other Goods';
+  const steps = PREPARE_STEPS_MAP[cargo] ?? PREPARE_STEPS_MAP['Other Goods'];
+  const authorities = Array.from(new Set(steps.map(s => s.authority)));
+  const [showSteps, setShowSteps] = useState(false);
 
   return (
-    <div style={{ background:'#fff', border:'1.5px solid #e9edf3', borderRadius:18, padding:'28px 32px', boxShadow:'0 12px 15px rgba(10,37,64,0.06)', display:'flex', gap:26, fontFamily:font }}>
-      {/* Left icon */}
-      <div style={{ width:64, height:64, borderRadius:16, background:'#eeeff1', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#3e4964" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    <div style={{ background:'#fff', border:'1.5px solid #e9edf3', borderRadius:16, padding:'20px 22px', boxShadow:'0 4px 16px rgba(10,37,64,0.06)' }}>
+      <div style={{ fontSize:14, fontWeight:600, color:'#0a2540', lineHeight:1.65, marginBottom:8 }}>
+        To help expedite your shipment clearance, you can submit the required permit applications in advance to reduce processing time.
+      </div>
+      <div style={{ fontSize:13, color:'#697498', lineHeight:1.65, marginBottom:16 }}>
+        To get started faster, select the government entity if you already know which one issues your required permit or certificate. Otherwise, click <strong>Show the Steps</strong> and we'll guide you to the right service.
       </div>
 
-      {/* Content */}
-      <div style={{ flex:1, display:'flex', flexDirection:'column', gap:20 }}>
-        {/* Header */}
-        <div>
-          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:6 }}>
-            <span style={{ fontSize:11, color:'#3e4964', fontWeight:500, letterSpacing:0.3 }}>Recommended</span>
-            <span style={{ background:'#1aac72', color:'#fff', borderRadius:20, padding:'3px 10px', fontSize:12, fontWeight:700, display:'flex', alignItems:'center', gap:5 }}>
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/></svg>
-              Recommended best practice
+      <div style={{ display:'flex', flexWrap:'wrap', gap:7, marginBottom:18 }}>
+        {authorities.map(a => {
+          const s = authorityStyle(a);
+          return (
+            <span key={a} style={{ display:'inline-flex', alignItems:'center', gap:5, padding:'5px 11px', borderRadius:8, background:s.bg, border:`1px solid ${s.border}`, fontSize:12, fontWeight:600, color:s.text }}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke={s.text} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              {a}
             </span>
-          </div>
-          <div style={{ fontSize:17, fontWeight:700, color:'#0a2540', marginBottom:5 }}>Prepare in Advance</div>
-          <div style={{ fontSize:13, color:'#5a6b82', lineHeight:1.55 }}>Securing the required approvals before your goods arrive dramatically reduces clearance time. You can also do this later, but preparing now is best practice.</div>
-        </div>
+          );
+        })}
+      </div>
 
-        {/* Cargo type selection */}
-        <div>
-          <div style={{ fontSize:13, fontWeight:600, color:'#0a2540', marginBottom:8 }}>What are the types of products you are importing?</div>
-          <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
-            {PREPARE_CARGO_TYPES.map(c => {
-              const isSel = selected.includes(c.key);
-              return (
-                <button key={c.key} onClick={() => toggle(c.key)}
-                  style={{ display:'inline-flex', alignItems:'center', gap:5, padding:'6px 12px', borderRadius:9, border:`1px solid ${isSel ? '#1360d2' : '#e4e9f0'}`, background: isSel ? '#e3eeff' : '#f5f7fb', color:'#274063', fontSize:12, fontFamily:font, cursor:'pointer', transition:'all 0.15s', fontWeight: isSel ? 600 : 400 }}>
-                  <span style={{ color: isSel ? '#1360d2' : '#5a6b82' }}>{c.icon}</span>
-                  {c.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div style={{ borderTop:'1px solid #e9edf3' }} />
-
-        {/* Authorities + CTA */}
-        <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
-          <div>
-            <div style={{ fontSize:13, fontWeight:600, color:'#0a2540', marginBottom:4, lineHeight:1.6 }}>
-              To help expedite your shipment clearance, you can submit the required permit applications in advance to reduce processing time.
-            </div>
-            <div style={{ fontSize:12, color:'#8494a8', lineHeight:1.6 }}>
-              To get started faster, select the government entity if you already know which one issues your required permit or certificate. Otherwise, simply click Start, and we'll guide you to the right service.
-            </div>
-          </div>
-
-          {authorities.length > 0 && (
-            <div>
-              <div style={{ fontSize:10, color:'#8494a8', fontWeight:500, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:8 }}>Authorities that may be involved</div>
-              <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
-                {authorities.map(a => (
-                  <span key={a} style={{ display:'inline-flex', alignItems:'center', gap:5, padding:'6px 12px', borderRadius:9, border:'1px solid #e4e9f0', background:'#f5f7fb', color:'#274063', fontSize:12 }}>
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#1360d2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                    {a}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <button onClick={() => onStart(selected.join(',') || 'general')}
-            style={{ background:'#3e4964', color:'#fff', border:'none', borderRadius:6, padding:'12px 32px', fontFamily:font, fontSize:14, fontWeight:700, cursor:'pointer', alignSelf:'flex-start', transition:'all 0.18s' }}
-            onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.background='#2a3450'}
-            onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background='#3e4964'}>
-            Start
+      {!showSteps ? (
+        <div style={{ display:'flex', gap:10 }}>
+          <button onClick={onKnow}
+            style={{ background:'#fff', color:'#1360d2', border:'1.5px solid #1360d2', borderRadius:8, padding:'10px 22px', fontFamily:font, fontSize:13, fontWeight:600, cursor:'pointer', transition:'all 0.18s' }}
+            onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
+            onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#fff'}>
+            I Know
+          </button>
+          <button onClick={()=>{ setShowSteps(true); onShowSteps(); }}
+            style={{ background:'#0e1b3d', color:'#fff', border:'none', borderRadius:8, padding:'10px 22px', fontFamily:font, fontSize:13, fontWeight:600, cursor:'pointer', transition:'all 0.18s', display:'flex', alignItems:'center', gap:6 }}
+            onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#1a2a50'}
+            onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#0e1b3d'}>
+            Show the Steps
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
           </button>
         </div>
-      </div>
+      ) : (
+        <div style={{ animation:'slideUp 0.3s ease' }}>
+          <div style={{ fontSize:13, fontWeight:700, color:'#0a2540', marginBottom:14 }}>Required steps for {cargo}</div>
+          {steps.map((s, i) => (
+            <div key={i} style={{ display:'flex', gap:14, alignItems:'flex-start', paddingBottom:14 }}>
+              <div style={{ display:'flex', flexDirection:'column', alignItems:'center', flexShrink:0 }}>
+                <div style={{ width:30, height:30, borderRadius:'50%', background:'#1360d2', color:'#fff', fontSize:13, fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center' }}>{s.step}</div>
+                {i < steps.length-1 && <div style={{ width:2, flex:1, minHeight:18, background:'#dde8f8', marginTop:4 }} />}
+              </div>
+              <div style={{ paddingTop:4 }}>
+                <div style={{ fontSize:13, fontWeight:600, color:'#0a2540', marginBottom:4 }}>{s.label}</div>
+                <span style={{ ...authorityStyle(s.authority), display:'inline-flex', alignItems:'center', gap:4, borderRadius:6, padding:'2px 8px', fontSize:11, fontWeight:600, border:`1px solid ${authorityStyle(s.authority).border}` }}>
+                  {s.authority}
+                </span>
+              </div>
+            </div>
+          ))}
+          <button onClick={onStart}
+            style={{ marginTop:4, background:'#1360d2', color:'#fff', border:'none', borderRadius:8, padding:'11px 28px', fontFamily:font, fontSize:13, fontWeight:700, cursor:'pointer', display:'flex', alignItems:'center', gap:6, transition:'all 0.18s' }}
+            onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#0e4bbd'}
+            onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#1360d2'}>
+            Start Application
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -656,7 +677,7 @@ export default function PermitsCreatePage({ onClose }: Props) {
     setHistory(h=>[...h,{step:'welcome' as Step, answer:label, opt:{key,label}}]);
     scrollDown();
     if (key === 'prepare') {
-      showStep('prepare');
+      showStep('p-activity');
     } else {
       showStep(key as Step);
     }
@@ -701,13 +722,19 @@ export default function PermitsCreatePage({ onClose }: Props) {
   const renderHistoryOpts = (histStep: Step, histIdx: number) => {
     const op = (curr: Step, next: Step, o: any) => rePickAt(histIdx, curr, next, o);
     switch (histStep) {
-      case 'welcome':  return <WelcomeChoiceCards onSelect={(k,l)=>{ setHistory(h=>h.slice(0,histIdx)); pickWelcome(k,l); }} />;
-      case 'recent':   return <RecentServicesInChat onQuickStart={c=>{setHistory(h=>h.slice(0,histIdx));quickStart(c);}} onStartNew={()=>{setHistory(h=>h.slice(0,histIdx));startNew();}} />;
-      case 'activity': return <OptionCards options={TRADE_OPTIONS} onSelect={o=>op('activity','mode',o)} />;
-      case 'mode':     return <OptionCards options={MODE_OPTIONS}  onSelect={o=>op('mode','cargo',o)} />;
-      case 'cargo':    return <CargoCards onSelect={o=>op('cargo','done',o)} />;
-      case 'prepare':  return <PrepareInAdvanceCard onStart={o=>{ rePickAt(histIdx,'prepare','done',{key:o,label:'Prepare in Advance'}); }} />;
-      default:         return null;
+      case 'welcome':     return <WelcomeChoiceCards onSelect={(k,l)=>{ setHistory(h=>h.slice(0,histIdx)); pickWelcome(k,l); }} />;
+      case 'recent':      return <RecentServicesInChat onQuickStart={c=>{setHistory(h=>h.slice(0,histIdx));quickStart(c);}} onStartNew={()=>{setHistory(h=>h.slice(0,histIdx));startNew();}} />;
+      case 'activity':    return <OptionCards options={TRADE_OPTIONS} onSelect={o=>op('activity','mode',o)} />;
+      case 'mode':        return <OptionCards options={MODE_OPTIONS}  onSelect={o=>op('mode','cargo',o)} />;
+      case 'cargo':       return <CargoCards onSelect={o=>op('cargo','done',o)} />;
+      case 'p-activity':  return <OptionCards options={TRADE_OPTIONS} onSelect={o=>op('p-activity','p-mode',o)} />;
+      case 'p-mode':      return <OptionCards options={MODE_OPTIONS}  onSelect={o=>op('p-mode','p-cargo',o)} />;
+      case 'p-cargo':     return <CargoCards onSelect={o=>op('p-cargo','p-info',o)} />;
+      case 'p-info': {
+        const histAnswers = Object.fromEntries(history.slice(0,histIdx+1).map(h=>[h.step,h.answer]));
+        return <PrepareInfoPanel answers={histAnswers} onKnow={()=>op('p-info','done',{key:'know',label:'I Know'})} onShowSteps={()=>{}} onStart={()=>op('p-info','done',{key:'start',label:'Start Application'})} />;
+      }
+      default:            return null;
     }
   };
 
@@ -848,13 +875,16 @@ export default function PermitsCreatePage({ onClose }: Props) {
             {/* ── Current step options panel (white bg, pinned above input) ── */}
             {hasChatted && !isTyping && step !== 'done' && showOptions && (
               <div style={{ flexShrink:0, background:'#fff', borderTop:'1px solid #eef0f6', animation:'slideUp 0.32s cubic-bezier(0.34,1.4,0.64,1)', padding:'14px 24px', maxWidth:960, width:'100%', margin:'0 auto', boxSizing:'border-box' }}>
-                {step==='welcome'  && <WelcomeChoiceCards onSelect={pickWelcome} />}
-                {step==='recent'   && <RecentServicesInChat onQuickStart={quickStart} onStartNew={startNew} />}
-                {step==='activity' && <OptionCards options={TRADE_OPTIONS} onSelect={o=>pick('activity','mode',o)} />}
-                {step==='mode'     && <OptionCards options={MODE_OPTIONS}  onSelect={o=>pick('mode','cargo',o)} />}
-                {step==='cargo'    && <CargoCards onSelect={o=>pick('cargo','done',o)} />}
-                {step==='search'   && <SearchResults q={inputVal} onSelect={pickSearch} />}
-                {step==='prepare'  && <PrepareInAdvanceCard onStart={o => pick('prepare','done',{key:o,label:'Prepare in Advance'})} />}
+                {step==='welcome'     && <WelcomeChoiceCards onSelect={pickWelcome} />}
+                {step==='recent'      && <RecentServicesInChat onQuickStart={quickStart} onStartNew={startNew} />}
+                {step==='activity'    && <OptionCards options={TRADE_OPTIONS} onSelect={o=>pick('activity','mode',o)} />}
+                {step==='mode'        && <OptionCards options={MODE_OPTIONS}  onSelect={o=>pick('mode','cargo',o)} />}
+                {step==='cargo'       && <CargoCards onSelect={o=>pick('cargo','done',o)} />}
+                {step==='search'      && <SearchResults q={inputVal} onSelect={pickSearch} />}
+                {step==='p-activity'  && <OptionCards options={TRADE_OPTIONS} onSelect={o=>pick('p-activity','p-mode',o)} />}
+                {step==='p-mode'      && <OptionCards options={MODE_OPTIONS}  onSelect={o=>pick('p-mode','p-cargo',o)} />}
+                {step==='p-cargo'     && <CargoCards onSelect={o=>pick('p-cargo','p-info',o)} />}
+                {step==='p-info'      && <PrepareInfoPanel answers={answers} onKnow={()=>pick('p-info','done',{key:'know',label:'I Know'})} onShowSteps={()=>{}} onStart={()=>pick('p-info','done',{key:'start',label:'Start Application'})} />}
               </div>
             )}
 

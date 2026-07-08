@@ -139,23 +139,21 @@ const STYLES = `
   .chat-scroll::-webkit-scrollbar-track{background:transparent}
 `;
 
-/* ── Bot avatar — circle gradient with bot icon ── */
+/* ── Bot avatar — plain circle with bot icon ── */
 function AiOrb({ size = 36, thinking = false }: { size?: number; thinking?: boolean }) {
   const iconSize = Math.round(size * 0.52);
   return (
     <div style={{ position:'relative', width:size, height:size, flexShrink:0 }}>
       {thinking && [0,1,2].map(i => (
-        <div key={i} style={{ position:'absolute', inset:-(size*0.22), borderRadius:'50%', border:'1.5px solid rgba(19,96,210,0.22)', animation:'ripple 2s ease-out infinite', animationDelay:`${i*0.6}s`, pointerEvents:'none' }} />
+        <div key={i} style={{ position:'absolute', inset:-(size*0.22), borderRadius:'50%', border:'1.5px solid rgba(19,96,210,0.18)', animation:'ripple 2s ease-out infinite', animationDelay:`${i*0.6}s`, pointerEvents:'none' }} />
       ))}
       <div style={{
         width:size, height:size, borderRadius:'50%',
-        background:'linear-gradient(145deg, #1560a8 0%, #0ea5e9 100%)',
-        animation:`orbGlow ${thinking?'1.1s':'3.5s'} ease infinite`,
+        background:'#1360d2',
         display:'flex', alignItems:'center', justifyContent:'center',
-        position:'relative', flexShrink:0,
-        boxShadow:`0 ${size*0.1}px ${size*0.3}px rgba(14,165,233,0.45)`,
+        flexShrink:0,
+        boxShadow:`0 ${size*0.08}px ${size*0.22}px rgba(19,96,210,0.32)`,
       }}>
-        {/* Bot icon */}
         <svg viewBox="0 0 24 24" width={iconSize} height={iconSize} fill="none" stroke="rgba(255,255,255,0.95)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="8" width="18" height="12" rx="3"/>
           <path d="M9 12h.01M15 12h.01"/>
@@ -164,8 +162,6 @@ function AiOrb({ size = 36, thinking = false }: { size?: number; thinking?: bool
           <circle cx="12" cy="4" r="1.2" fill="rgba(255,255,255,0.95)" stroke="none"/>
           <path d="M6 8V7a2 2 0 012-2h8a2 2 0 012 2v1"/>
         </svg>
-        {/* Highlight */}
-        <div style={{ position:'absolute', top:'10%', left:'16%', width:'32%', height:'22%', background:'rgba(255,255,255,0.25)', borderRadius:'50%', filter:`blur(${size*0.05}px)` }} />
       </div>
     </div>
   );
@@ -312,20 +308,20 @@ function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any)
               animation:`chipIn 0.36s cubic-bezier(0.34,1.4,0.64,1) both`,
               animationDelay:`${idx*55}ms`,
               display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-              gap:10, flexShrink:0, width:144, minHeight:128,
+              gap:7, flexShrink:0, width:110, minHeight:96,
               background: isH ? gradHov : gradIdle,
               border:'none',
-              borderRadius:20, padding:'18px 12px',
+              borderRadius:16, padding:'12px 8px',
               cursor:'pointer', transition:'all 0.22s cubic-bezier(0.34,1.4,0.64,1)',
-              boxShadow: isH ? `0 12px 32px ${glow}, 0 4px 12px ${glow}` : `0 4px 18px ${glow.replace('55','33')}`,
-              transform: isH ? 'translateY(-6px) scale(1.04)' : 'none',
+              boxShadow: isH ? `0 10px 28px ${glow}, 0 4px 10px ${glow}` : `0 3px 14px ${glow.replace('55','33')}`,
+              transform: isH ? 'translateY(-5px) scale(1.04)' : 'none',
             }}>
-            <div style={{ width:50, height:50, borderRadius:14, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH ? '0 0 20px rgba(255,255,255,0.2)' : 'none' }}>
+            <div style={{ width:38, height:38, borderRadius:10, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH ? '0 0 16px rgba(255,255,255,0.2)' : 'none' }}>
               <div style={{ color:'#fff', filter:'brightness(10)' }}>{o.icon}</div>
             </div>
             <div style={{ textAlign:'center' }}>
-              <div style={{ fontFamily:font, fontSize:14, fontWeight:700, color:'#fff', lineHeight:1.2 }}>{o.label}</div>
-              {o.desc && <div style={{ fontFamily:font, fontSize:11, color:'rgba(255,255,255,0.6)', marginTop:4, lineHeight:1.35 }}>{o.desc}</div>}
+              <div style={{ fontFamily:font, fontSize:12, fontWeight:700, color:'#fff', lineHeight:1.2 }}>{o.label}</div>
+              {o.desc && <div style={{ fontFamily:font, fontSize:10, color:'rgba(255,255,255,0.6)', marginTop:2, lineHeight:1.3 }}>{o.desc}</div>}
             </div>
           </button>
         );
@@ -346,9 +342,9 @@ function CargoCards({ onSelect }: { onSelect: (o: any) => void }) {
         return (
           <button key={o.key} onClick={() => onSelect(o)}
             onMouseEnter={()=>setHov(o.key)} onMouseLeave={()=>setHov('')}
-            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*35}ms`, display:'inline-flex', alignItems:'center', gap:8, flexShrink:0, background: isH ? gradHov : gradIdle, border:'none', borderRadius:22, padding:'9px 16px 9px 10px', cursor:'pointer', transition:'all 0.18s', boxShadow: isH?`0 6px 20px ${o.color}55`:`0 3px 12px ${o.color}33`, transform: isH?'translateY(-3px) scale(1.02)':'none' }}>
-            <div style={{ width:28, height:28, borderRadius:8, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', filter:'brightness(10)' }}>{o.icon}</div>
-            <span style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#fff', whiteSpace:'nowrap' }}>{o.label}</span>
+            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*35}ms`, display:'inline-flex', alignItems:'center', gap:6, flexShrink:0, background: isH ? gradHov : gradIdle, border:'none', borderRadius:18, padding:'7px 12px 7px 8px', cursor:'pointer', transition:'all 0.18s', boxShadow: isH?`0 5px 16px ${o.color}55`:`0 2px 10px ${o.color}33`, transform: isH?'translateY(-2px) scale(1.02)':'none' }}>
+            <div style={{ width:22, height:22, borderRadius:6, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', filter:'brightness(10)' }}>{o.icon}</div>
+            <span style={{ fontFamily:font, fontSize:12, fontWeight:600, color:'#fff', whiteSpace:'nowrap' }}>{o.label}</span>
           </button>
         );
       })}

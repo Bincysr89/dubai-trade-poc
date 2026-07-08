@@ -553,7 +553,7 @@ function SearchServiceCard({ permit, onRestart }: { permit: { label: string; aut
       <div style={{ background:'linear-gradient(135deg,#eef4ff,#e8f0fb)', border:'1px solid #dce8ff', borderRadius:16, padding:'18px 22px', boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
         <div style={{ display:'flex', alignItems:'flex-start', gap:14 }}>
           <div style={{ width:44, height:44, borderRadius:12, background:'#eaf1ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-            <IntegratedClearanceIcon size={22} />
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1360d2" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           </div>
           <div style={{ flex:1 }}>
             <div style={{ fontFamily:font, fontSize:15, fontWeight:700, color:'#111838', marginBottom:6 }}>{permit.label}</div>
@@ -644,22 +644,22 @@ function DoneWithPrepare({ answers, onRestart }: { answers: Record<string,string
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:10, animation:'msgIn 0.35s ease' }}>
       {/* Header */}
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'linear-gradient(135deg,#1360d2 0%,#0e1b3d 100%)', borderRadius:14, padding:'16px 20px', boxShadow:'0 4px 18px rgba(19,96,210,0.28)' }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'#fff', border:'1.5px solid #1360d2', borderRadius:14, padding:'16px 20px', boxShadow:'0 2px 10px rgba(19,96,210,0.08)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:12 }}>
           <div style={{ textAlign:'center', minWidth:38 }}>
-            <p style={{ fontFamily:font, fontSize:28, fontWeight:800, color:'#fff', margin:0, lineHeight:1 }}>{permits.length}</p>
-            <p style={{ fontFamily:font, fontSize:10, color:'rgba(255,255,255,0.65)', margin:'2px 0 0', textTransform:'uppercase', letterSpacing:'0.5px' }}>Steps</p>
+            <p style={{ fontFamily:font, fontSize:28, fontWeight:800, color:'#1360d2', margin:0, lineHeight:1 }}>{permits.length}</p>
+            <p style={{ fontFamily:font, fontSize:10, color:'#697498', margin:'2px 0 0', textTransform:'uppercase', letterSpacing:'0.5px' }}>Steps</p>
           </div>
-          <div style={{ width:1, height:32, background:'rgba(255,255,255,0.2)', flexShrink:0 }} />
+          <div style={{ width:1, height:32, background:'#dde8f8', flexShrink:0 }} />
           <div>
-            <p style={{ fontFamily:font, fontSize:14, fontWeight:700, color:'#fff', margin:'0 0 2px' }}>Your permit journey for {cargo}</p>
-            <p style={{ fontFamily:font, fontSize:12, color:'rgba(255,255,255,0.65)', margin:0 }}>Complete each step in order to clear your shipment</p>
+            <p style={{ fontFamily:font, fontSize:14, fontWeight:700, color:'#111838', margin:'0 0 2px' }}>Your permit journey for {cargo}</p>
+            <p style={{ fontFamily:font, fontSize:12, color:'#697498', margin:0 }}>Complete each step in order to clear your shipment</p>
           </div>
         </div>
-        <button onClick={onRestart} style={{ flexShrink:0, background:'rgba(255,255,255,0.15)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:20, padding:'6px 14px', fontFamily:font, fontSize:12, color:'#fff', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:4, transition:'all 0.18s' }}
-          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='rgba(255,255,255,0.25)'}
-          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='rgba(255,255,255,0.15)'}>
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        <button onClick={onRestart} style={{ flexShrink:0, background:'#f5f8ff', border:'1.5px solid #dce8ff', borderRadius:20, padding:'6px 14px', fontFamily:font, fontSize:12, color:'#1360d2', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:4, transition:'all 0.18s' }}
+          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
+          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#f5f8ff'}>
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
           Start over
         </button>
       </div>
@@ -669,9 +669,19 @@ function DoneWithPrepare({ answers, onRestart }: { answers: Record<string,string
         const s = authorityStyle(p.authority);
         return (
           <div key={idx} style={{ display:'flex', gap:12, alignItems:'stretch', animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*60}ms` }}>
-            {/* Step number + connector */}
+            {/* Step icon + connector */}
             <div style={{ display:'flex', flexDirection:'column', alignItems:'center', flexShrink:0, paddingTop:14 }}>
-              <div style={{ width:30, height:30, borderRadius:'50%', background:'#1360d2', color:'#fff', fontFamily:font, fontSize:13, fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>{idx+1}</div>
+              <div style={{ width:32, height:32, borderRadius:'50%', background:'#1360d2', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                {[
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>,
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>,
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>,
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg>,
+                ][idx] ?? <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg>}
+              </div>
               {idx < permits.length-1 && <div style={{ width:2, flex:1, minHeight:12, background:'#dde8f8', marginTop:4 }} />}
             </div>
             {/* Card */}

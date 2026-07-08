@@ -516,6 +516,79 @@ function RecentServicesInChat({ onQuickStart, onStartNew, readonly }: { onQuickS
   );
 }
 
+/* ── Search result service card with 3 actions ── */
+function SearchServiceCard({ permit, onRestart }: { permit: { label: string; authority: string }; onRestart: () => void }) {
+  const s = authorityStyle(permit.authority);
+  const actions = [
+    {
+      key: 'journey',
+      label: 'Start Journey',
+      desc: 'Begin the application process step by step',
+      icon: (<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>),
+      bg: '#1360d2', color: '#fff', border: 'none',
+    },
+    {
+      key: 'requests',
+      label: 'Service Requests',
+      desc: 'View and track your existing requests',
+      icon: (<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>),
+      bg: '#fff', color: '#1360d2', border: '1.5px solid #1360d2',
+    },
+    {
+      key: 'info',
+      label: 'Service Information',
+      desc: 'Learn about requirements and eligibility',
+      icon: (<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg>),
+      bg: '#fff', color: '#0e1b3d', border: '1.5px solid #dde3f0',
+    },
+  ];
+
+  return (
+    <div style={{ animation:'slideUp 0.35s ease', display:'flex', flexDirection:'column', gap:14 }}>
+      {/* Service card */}
+      <div style={{ background:'linear-gradient(135deg,#eef4ff,#e8f0fb)', border:'1px solid #dce8ff', borderRadius:16, padding:'18px 22px', boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
+        <div style={{ display:'flex', alignItems:'flex-start', gap:14 }}>
+          <div style={{ width:44, height:44, borderRadius:12, background:'#eaf1ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+            <IntegratedClearanceIcon size={22} />
+          </div>
+          <div style={{ flex:1 }}>
+            <div style={{ fontFamily:font, fontSize:15, fontWeight:700, color:'#111838', marginBottom:6 }}>{permit.label}</div>
+            <div style={{ display:'inline-flex', alignItems:'center', gap:5, background:s.bg, border:`1px solid ${s.border}`, borderRadius:20, padding:'3px 10px 3px 8px' }}>
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke={s.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span style={{ fontFamily:font, fontSize:11, fontWeight:700, color:s.text }}>{permit.authority}</span>
+            </div>
+          </div>
+          <button onClick={onRestart}
+            style={{ flexShrink:0, background:'#fff', border:'1px solid #dce8ff', borderRadius:20, padding:'6px 14px', fontFamily:font, fontSize:12, color:'#1360d2', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:4, transition:'all 0.18s' }}
+            onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
+            onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#fff'}>
+            <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Search again
+          </button>
+        </div>
+      </div>
+
+      {/* 3 action buttons */}
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10 }}>
+        {actions.map(a => (
+          <button key={a.key}
+            style={{ display:'flex', flexDirection:'column', alignItems:'flex-start', gap:10, padding:'16px 16px', borderRadius:14, background:a.bg, border:a.border ?? 'none', color:a.color, fontFamily:font, cursor:'pointer', transition:'all 0.18s', textAlign:'left', boxShadow: a.key==='journey' ? '0 4px 14px rgba(19,96,210,0.28)' : '0 1px 6px rgba(0,0,0,0.05)' }}
+            onMouseEnter={e=>{ const el = e.currentTarget as HTMLButtonElement; el.style.transform='translateY(-2px)'; el.style.boxShadow = a.key==='journey' ? '0 8px 24px rgba(19,96,210,0.38)' : '0 4px 14px rgba(0,0,0,0.1)'; }}
+            onMouseLeave={e=>{ const el = e.currentTarget as HTMLButtonElement; el.style.transform='none'; el.style.boxShadow = a.key==='journey' ? '0 4px 14px rgba(19,96,210,0.28)' : '0 1px 6px rgba(0,0,0,0.05)'; }}>
+            <div style={{ width:36, height:36, borderRadius:10, background: a.key==='journey' ? 'rgba(255,255,255,0.18)' : '#eef4ff', display:'flex', alignItems:'center', justifyContent:'center', color: a.key==='journey' ? '#fff' : '#1360d2' }}>
+              {a.icon}
+            </div>
+            <div>
+              <div style={{ fontSize:13, fontWeight:700, color:a.color, marginBottom:3 }}>{a.label}</div>
+              <div style={{ fontSize:11, color: a.key==='journey' ? 'rgba(255,255,255,0.72)' : '#8494a8', lineHeight:1.4 }}>{a.desc}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ── Search results panel (driven by bottom bar input) ── */
 function SearchResults({ q, onSelect }: { q: string; onSelect: (label: string) => void }) {
   const ALL_PERMITS = Object.values(PERMITS_MAP).flat();
@@ -679,8 +752,10 @@ export default function PermitsCreatePage({ onClose }: Props) {
   };
 
   const pickSearch = (label: string) => {
+    const ALL_PERMITS = Object.values(PERMITS_MAP).flat();
+    const permit = ALL_PERMITS.find(p => p.label === label) ?? { label, authority: 'Dubai Customs' };
     setShowOptions(false);
-    setHistory(h=>[...h,{step:'search' as Step, answer:label, opt:null}]);
+    setHistory(h=>[...h,{step:'search' as Step, answer:label, opt:{ permit }}]);
     setStep('done'); scrollDown();
   };
 
@@ -711,6 +786,8 @@ export default function PermitsCreatePage({ onClose }: Props) {
       default:            return null;
     }
   };
+
+  const searchPermit = history.find(h => h.step === 'search')?.opt?.permit as { label: string; authority: string } | undefined;
 
   return (
     <div style={{ position:'fixed', inset:0, zIndex:200, display:'flex', flexDirection:'column', background:'#fff', overflow:'hidden' }}>
@@ -805,33 +882,35 @@ export default function PermitsCreatePage({ onClose }: Props) {
 
                   {/* Current active step — only show question, options go to bottom panel */}
                   {step === 'done' ? (
-                    <div style={{ display:'flex', flexDirection:'column', gap:14, animation:'msgIn 0.35s ease' }}>
-                      <div style={{ display:'flex', alignItems:'center', gap:8, background:'#fff', border:'1.5px solid #e2eaf8', borderRadius:14, padding:'12px 18px', flexWrap:'wrap', boxShadow:'0 2px 12px rgba(19,96,210,0.08)' }}>
-                        <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
-                          <div style={{ width:20, height:20, borderRadius:'50%', background:'linear-gradient(135deg,#1360d2,#0e1b3d)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                            <svg viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
-                          </div>
-                          <span style={{ fontFamily:font, fontSize:12, fontWeight:600, color:'#697498', textTransform:'uppercase', letterSpacing:0.5 }}>You selected</span>
-                        </div>
-                        <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap', flex:1 }}>
-                        {history.filter(h=>h.step!=='welcome').map((h,i)=>(
-                          <div key={i} style={{ display:'inline-flex', alignItems:'center', gap:5, background:'linear-gradient(135deg,#0e1b3d,#1360d2)', borderRadius:20, padding:'5px 13px 5px 8px' }}>
-                            <div style={{ width:16, height:16, flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', overflow:'hidden', filter:'brightness(10)' }}>
-                              {h.opt?.icon && <div style={{ transform:'scale(0.65)', transformOrigin:'center' }}>{h.opt.icon}</div>}
+                    searchPermit
+                      ? <SearchServiceCard permit={searchPermit} onRestart={restart} />
+                      : <div style={{ display:'flex', flexDirection:'column', gap:14, animation:'msgIn 0.35s ease' }}>
+                          <div style={{ display:'flex', alignItems:'center', gap:8, background:'#fff', border:'1.5px solid #e2eaf8', borderRadius:14, padding:'12px 18px', flexWrap:'wrap', boxShadow:'0 2px 12px rgba(19,96,210,0.08)' }}>
+                            <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
+                              <div style={{ width:20, height:20, borderRadius:'50%', background:'linear-gradient(135deg,#1360d2,#0e1b3d)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                                <svg viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
+                              </div>
+                              <span style={{ fontFamily:font, fontSize:12, fontWeight:600, color:'#697498', textTransform:'uppercase', letterSpacing:0.5 }}>You selected</span>
                             </div>
-                            <span style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#fff' }}>{h.answer}</span>
+                            <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap', flex:1 }}>
+                            {history.filter(h=>h.step!=='welcome').map((h,i)=>(
+                              <div key={i} style={{ display:'inline-flex', alignItems:'center', gap:5, background:'linear-gradient(135deg,#0e1b3d,#1360d2)', borderRadius:20, padding:'5px 13px 5px 8px' }}>
+                                <div style={{ width:16, height:16, flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', overflow:'hidden', filter:'brightness(10)' }}>
+                                  {h.opt?.icon && <div style={{ transform:'scale(0.65)', transformOrigin:'center' }}>{h.opt.icon}</div>}
+                                </div>
+                                <span style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#fff' }}>{h.answer}</span>
+                              </div>
+                            ))}
+                            </div>
+                            <button onClick={restart} style={{ marginLeft:'auto', background:'#f5f8ff', border:'1.5px solid #dce8ff', borderRadius:8, fontFamily:font, fontSize:12, color:'#1360d2', cursor:'pointer', display:'flex', alignItems:'center', gap:4, padding:'6px 14px', fontWeight:600, flexShrink:0 }}
+                              onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
+                              onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#f5f8ff'}>
+                              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+                              Change
+                            </button>
                           </div>
-                        ))}
+                          <ResultsSection answers={answers} onRestart={restart} />
                         </div>
-                        <button onClick={restart} style={{ marginLeft:'auto', background:'#f5f8ff', border:'1.5px solid #dce8ff', borderRadius:8, fontFamily:font, fontSize:12, color:'#1360d2', cursor:'pointer', display:'flex', alignItems:'center', gap:4, padding:'6px 14px', fontWeight:600, flexShrink:0 }}
-                          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
-                          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#f5f8ff'}>
-                          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-                          Change
-                        </button>
-                      </div>
-                      <ResultsSection answers={answers} onRestart={restart} />
-                    </div>
                   ) : isTyping ? (
                     <ThinkingState />
                   ) : (

@@ -658,16 +658,28 @@ function ResultsSection({ answers, onRestart }: { answers: Record<string,string>
               <span style={{ fontFamily:font, fontSize:12, fontWeight:700, color:s.text }}>{auth}</span>
             </div>
             {items.map((p, i) => (
-              <div key={i} style={{ display:'flex', alignItems:'center', gap:12, background:'#fff', border:'1px solid #eef0f6', borderRadius:12, padding:'13px 16px', marginBottom:7, boxShadow:'0 1px 6px rgba(0,0,0,0.04)', transition:'all 0.18s' }}
-                onMouseEnter={e=>{(e.currentTarget as HTMLDivElement).style.borderColor='#c8deff';(e.currentTarget as HTMLDivElement).style.background='#f8fbff';}}
-                onMouseLeave={e=>{(e.currentTarget as HTMLDivElement).style.borderColor='#eef0f6';(e.currentTarget as HTMLDivElement).style.background='#fff';}}>
-                <div style={{ width:36, height:36, borderRadius:9, background:'#eaf1ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  <IntegratedClearanceIcon size={20} />
+              <div key={i} style={{ display:'flex', alignItems:'center', gap:12, background:'#fff', border:'1px solid #eef0f6', borderRadius:12, padding:'11px 14px', marginBottom:7, boxShadow:'0 1px 6px rgba(0,0,0,0.04)' }}>
+                <div style={{ width:34, height:34, borderRadius:9, background:'#eaf1ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                  <IntegratedClearanceIcon size={18} />
                 </div>
-                <span style={{ flex:1, fontFamily:font, fontSize:14, color:'#111838' }}>{p.label}</span>
-                <button style={{ background:'#1360d2', color:'#fff', border:'none', borderRadius:8, padding:'8px 18px', fontFamily:font, fontSize:13, fontWeight:600, cursor:'pointer', flexShrink:0, boxShadow:'0 3px 10px rgba(19,96,210,0.3)' }}>
-                  Start Journey
-                </button>
+                <span style={{ flex:1, fontFamily:font, fontSize:13, fontWeight:600, color:'#111838' }}>{p.label}</span>
+                <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
+                  {[
+                    { label:'Start Journey', bg:'#1360d2', color:'#fff', border:'none', shadow:'0 2px 8px rgba(19,96,210,0.25)',
+                      icon:<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> },
+                    { label:'View Requests', bg:'#fff', color:'#1360d2', border:'1.5px solid #1360d2', shadow:'none',
+                      icon:<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg> },
+                    { label:'Service Info', bg:'#fff', color:'#5a6478', border:'1.5px solid #e2eaf8', shadow:'none',
+                      icon:<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg> },
+                  ].map(a => (
+                    <button key={a.label}
+                      style={{ display:'flex', alignItems:'center', gap:5, padding:'5px 10px', borderRadius:6, background:a.bg, border:a.border, color:a.color, fontFamily:font, fontSize:11, fontWeight:600, cursor:'pointer', whiteSpace:'nowrap', boxShadow:a.shadow, transition:'opacity 0.15s' }}
+                      onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.opacity='0.8'}
+                      onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.opacity='1'}>
+                      {a.icon}{a.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

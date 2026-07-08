@@ -689,6 +689,35 @@ function ResultsSection({ answers, onRestart }: { answers: Record<string,string>
   );
 }
 
+/* ── Done state: Prepare in Advance first, then optional service list ── */
+function DoneWithPrepare({ answers, onRestart }: { answers: Record<string,string>; onRestart: () => void }) {
+  const [showServices, setShowServices] = useState(false);
+  const cargo = answers['cargo'] ?? 'Other Goods';
+  const prepareAnswers = { 'p-cargo': cargo };
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:14, animation:'msgIn 0.35s ease' }}>
+      <AiMessage text="Before you start, here's what you may need to prepare in advance." isNew={false} />
+      <PrepareInfoPanel
+        answers={prepareAnswers}
+        onKnow={() => setShowServices(true)}
+        onShowSteps={() => {}}
+        onStart={() => setShowServices(true)}
+      />
+      {!showServices && (
+        <button
+          onClick={() => setShowServices(true)}
+          style={{ alignSelf:'flex-start', marginLeft:44, background:'#fff', border:'1.5px solid #1360d2', borderRadius:8, padding:'9px 20px', fontFamily:font, fontSize:13, fontWeight:600, color:'#1360d2', cursor:'pointer', display:'flex', alignItems:'center', gap:6, transition:'all 0.18s' }}
+          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
+          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#fff'}>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          Show me the services
+        </button>
+      )}
+      {showServices && <ResultsSection answers={answers} onRestart={onRestart} />}
+    </div>
+  );
+}
+
 /* ── Main ── */
 export default function PermitsCreatePage({ onClose }: Props) {
   const [step, setStep] = useState<Step>('welcome');
@@ -898,33 +927,7 @@ export default function PermitsCreatePage({ onClose }: Props) {
                   {step === 'done' ? (
                     searchPermit
                       ? <SearchServiceCard permit={searchPermit} onRestart={restart} />
-                      : <div style={{ display:'flex', flexDirection:'column', gap:14, animation:'msgIn 0.35s ease' }}>
-                          <div style={{ display:'flex', alignItems:'center', gap:8, background:'#fff', border:'1.5px solid #e2eaf8', borderRadius:14, padding:'12px 18px', flexWrap:'wrap', boxShadow:'0 2px 12px rgba(19,96,210,0.08)' }}>
-                            <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
-                              <div style={{ width:20, height:20, borderRadius:'50%', background:'linear-gradient(135deg,#1360d2,#0e1b3d)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                                <svg viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"><path d="M3 8l3.5 3.5L13 5"/></svg>
-                              </div>
-                              <span style={{ fontFamily:font, fontSize:12, fontWeight:600, color:'#697498', textTransform:'uppercase', letterSpacing:0.5 }}>You selected</span>
-                            </div>
-                            <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap', flex:1 }}>
-                            {history.filter(h=>h.step!=='welcome').map((h,i)=>(
-                              <div key={i} style={{ display:'inline-flex', alignItems:'center', gap:5, background:'linear-gradient(135deg,#0e1b3d,#1360d2)', borderRadius:20, padding:'5px 13px 5px 8px' }}>
-                                <div style={{ width:16, height:16, flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', overflow:'hidden', filter:'brightness(10)' }}>
-                                  {h.opt?.icon && <div style={{ transform:'scale(0.65)', transformOrigin:'center' }}>{h.opt.icon}</div>}
-                                </div>
-                                <span style={{ fontFamily:font, fontSize:13, fontWeight:600, color:'#fff' }}>{h.answer}</span>
-                              </div>
-                            ))}
-                            </div>
-                            <button onClick={restart} style={{ marginLeft:'auto', background:'#f5f8ff', border:'1.5px solid #dce8ff', borderRadius:8, fontFamily:font, fontSize:12, color:'#1360d2', cursor:'pointer', display:'flex', alignItems:'center', gap:4, padding:'6px 14px', fontWeight:600, flexShrink:0 }}
-                              onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
-                              onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#f5f8ff'}>
-                              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-                              Change
-                            </button>
-                          </div>
-                          <ResultsSection answers={answers} onRestart={restart} />
-                        </div>
+                      : <DoneWithPrepare answers={answers} onRestart={restart} />
                   ) : isTyping ? (
                     <ThinkingState />
                   ) : (

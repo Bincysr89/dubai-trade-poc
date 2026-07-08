@@ -250,7 +250,7 @@ const WELCOME_CHOICES = [
 function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: string) => void }) {
   const [hov, setHov] = useState('');
   return (
-    <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:10 }}>
+    <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:10, maxWidth:680, margin:'0 auto' }}>
       {WELCOME_CHOICES.map((c, idx) => {
         const isH = hov === c.key;
         return (

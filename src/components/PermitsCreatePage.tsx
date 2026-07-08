@@ -644,22 +644,22 @@ function DoneWithPrepare({ answers, onRestart }: { answers: Record<string,string
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:10, animation:'msgIn 0.35s ease' }}>
       {/* Header */}
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'linear-gradient(135deg,#eef4ff,#e8f0fb)', border:'1px solid #dce8ff', borderRadius:14, padding:'14px 18px', boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'linear-gradient(135deg,#1360d2 0%,#0e1b3d 100%)', borderRadius:14, padding:'16px 20px', boxShadow:'0 4px 18px rgba(19,96,210,0.28)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:12 }}>
           <div style={{ textAlign:'center', minWidth:38 }}>
-            <p style={{ fontFamily:font, fontSize:28, fontWeight:800, color:'#1360d2', margin:0, lineHeight:1 }}>{permits.length}</p>
-            <p style={{ fontFamily:font, fontSize:10, color:'#697498', margin:'2px 0 0', textTransform:'uppercase', letterSpacing:'0.5px' }}>Steps</p>
+            <p style={{ fontFamily:font, fontSize:28, fontWeight:800, color:'#fff', margin:0, lineHeight:1 }}>{permits.length}</p>
+            <p style={{ fontFamily:font, fontSize:10, color:'rgba(255,255,255,0.65)', margin:'2px 0 0', textTransform:'uppercase', letterSpacing:'0.5px' }}>Steps</p>
           </div>
-          <div style={{ width:1, height:32, background:'#c8d8ee', flexShrink:0 }} />
+          <div style={{ width:1, height:32, background:'rgba(255,255,255,0.2)', flexShrink:0 }} />
           <div>
-            <p style={{ fontFamily:font, fontSize:14, fontWeight:700, color:'#111838', margin:'0 0 2px' }}>Your permit journey for {cargo}</p>
-            <p style={{ fontFamily:font, fontSize:12, color:'#697498', margin:0 }}>Complete each step in order to clear your shipment</p>
+            <p style={{ fontFamily:font, fontSize:14, fontWeight:700, color:'#fff', margin:'0 0 2px' }}>Your permit journey for {cargo}</p>
+            <p style={{ fontFamily:font, fontSize:12, color:'rgba(255,255,255,0.65)', margin:0 }}>Complete each step in order to clear your shipment</p>
           </div>
         </div>
-        <button onClick={onRestart} style={{ flexShrink:0, background:'#fff', border:'1px solid #dce8ff', borderRadius:20, padding:'6px 14px', fontFamily:font, fontSize:12, color:'#1360d2', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:4, transition:'all 0.18s' }}
-          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
-          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#fff'}>
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        <button onClick={onRestart} style={{ flexShrink:0, background:'rgba(255,255,255,0.15)', border:'1px solid rgba(255,255,255,0.3)', borderRadius:20, padding:'6px 14px', fontFamily:font, fontSize:12, color:'#fff', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:4, transition:'all 0.18s' }}
+          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='rgba(255,255,255,0.25)'}
+          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='rgba(255,255,255,0.15)'}>
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
           Start over
         </button>
       </div>

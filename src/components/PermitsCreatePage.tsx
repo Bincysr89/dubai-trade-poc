@@ -294,35 +294,33 @@ function WelcomeChoiceCards({ onSelect }: { onSelect: (key: string, label: strin
 function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any) => void }) {
   const [hov, setHov] = useState('');
   return (
-    <div style={{ display:'flex', flexWrap:'nowrap', gap:10, justifyContent:'flex-start', overflowX:'auto', paddingBottom:2 }}>
+    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
       {options.map((o, idx) => {
         const isH = hov === o.key;
-        const darkBase = o.color;
-        const gradIdle = `linear-gradient(145deg, rgb(21,96,168) 0%, #0ea5e9 100%)`;
-        const gradHov  = `linear-gradient(145deg, rgb(28,110,185) 0%, #1ab8ff 100%)`;
-        const glow = `rgba(14,165,233,0.45)`;
         return (
           <button key={o.key} onClick={() => onSelect(o)}
             onMouseEnter={() => setHov(o.key)} onMouseLeave={() => setHov('')}
             style={{
-              animation:`chipIn 0.36s cubic-bezier(0.34,1.4,0.64,1) both`,
-              animationDelay:`${idx*55}ms`,
-              display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-              gap:7, flexShrink:0, width:110, minHeight:96,
-              background: isH ? gradHov : gradIdle,
-              border:'none',
-              borderRadius:16, padding:'12px 8px',
-              cursor:'pointer', transition:'all 0.22s cubic-bezier(0.34,1.4,0.64,1)',
-              boxShadow: isH ? `0 10px 28px ${glow}, 0 4px 10px ${glow}` : `0 3px 14px ${glow.replace('55','33')}`,
-              transform: isH ? 'translateY(-5px) scale(1.04)' : 'none',
+              animation:`chipIn 0.32s cubic-bezier(0.34,1.4,0.64,1) both`,
+              animationDelay:`${idx*50}ms`,
+              display:'flex', alignItems:'center', gap:14,
+              width:'100%', padding:'11px 16px',
+              background: isH ? '#eef4ff' : '#fff',
+              border: isH ? '1.5px solid #1360d2' : '1.5px solid #e2eaf8',
+              borderRadius:12,
+              cursor:'pointer', transition:'all 0.18s',
+              boxShadow: isH ? '0 4px 16px rgba(19,96,210,0.12)' : '0 1px 4px rgba(0,0,0,0.05)',
+              transform: isH ? 'translateX(3px)' : 'none',
+              textAlign:'left',
             }}>
-            <div style={{ width:38, height:38, borderRadius:10, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.22s', boxShadow: isH ? '0 0 16px rgba(255,255,255,0.2)' : 'none' }}>
-              <div style={{ color:'#fff', filter:'brightness(10)' }}>{o.icon}</div>
+            <div style={{ width:38, height:38, borderRadius:10, background: isH ? '#1360d2' : 'linear-gradient(145deg,rgb(21,96,168),#0ea5e9)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, transition:'all 0.18s' }}>
+              <div style={{ color:'#fff', filter:'brightness(10)', display:'flex' }}>{o.icon}</div>
             </div>
-            <div style={{ textAlign:'center' }}>
-              <div style={{ fontFamily:font, fontSize:12, fontWeight:700, color:'#fff', lineHeight:1.2 }}>{o.label}</div>
-              {o.desc && <div style={{ fontFamily:font, fontSize:10, color:'rgba(255,255,255,0.6)', marginTop:2, lineHeight:1.3 }}>{o.desc}</div>}
+            <div style={{ flex:1 }}>
+              <div style={{ fontFamily:font, fontSize:13, fontWeight:700, color: isH ? '#1360d2' : '#111838', lineHeight:1.2 }}>{o.label}</div>
+              {o.desc && <div style={{ fontFamily:font, fontSize:11, color:'#8494a8', marginTop:2, lineHeight:1.3 }}>{o.desc}</div>}
             </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke={isH ? '#1360d2' : '#b0bcd8'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0 }}><path d="M9 18l6-6-6-6"/></svg>
           </button>
         );
       })}
@@ -330,21 +328,24 @@ function OptionCards({ options, onSelect }: { options: any[]; onSelect: (o: any)
   );
 }
 
-/* ── Cargo chips — solid blue gradient, wrapping ── */
+/* ── Cargo list — WhatsApp-style horizontal rows, 2 per row ── */
 function CargoCards({ onSelect }: { onSelect: (o: any) => void }) {
   const [hov, setHov] = useState('');
   return (
-    <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
+    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
       {CARGO_OPTIONS.map((o, idx) => {
         const isH = hov === o.key;
-        const gradIdle = `linear-gradient(145deg, rgb(21,96,168) 0%, #0ea5e9 100%)`;
-        const gradHov  = `linear-gradient(145deg, rgb(28,110,185) 0%, #1ab8ff 100%)`;
         return (
           <button key={o.key} onClick={() => onSelect(o)}
             onMouseEnter={()=>setHov(o.key)} onMouseLeave={()=>setHov('')}
-            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*35}ms`, display:'inline-flex', alignItems:'center', gap:6, flexShrink:0, background: isH ? gradHov : gradIdle, border:'none', borderRadius:18, padding:'7px 12px 7px 8px', cursor:'pointer', transition:'all 0.18s', boxShadow: isH?`0 5px 16px ${o.color}55`:`0 2px 10px ${o.color}33`, transform: isH?'translateY(-2px) scale(1.02)':'none' }}>
-            <div style={{ width:22, height:22, borderRadius:6, background:'rgba(255,255,255,0.15)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', filter:'brightness(10)' }}>{o.icon}</div>
-            <span style={{ fontFamily:font, fontSize:12, fontWeight:600, color:'#fff', whiteSpace:'nowrap' }}>{o.label}</span>
+            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*35}ms`, display:'flex', alignItems:'center', gap:14, width:'100%', padding:'11px 16px', background: isH ? '#eef4ff' : '#fff', border: isH ? '1.5px solid #1360d2' : '1.5px solid #e2eaf8', borderRadius:12, cursor:'pointer', transition:'all 0.18s', boxShadow: isH ? '0 4px 16px rgba(19,96,210,0.12)' : '0 1px 4px rgba(0,0,0,0.05)', transform: isH ? 'translateX(3px)' : 'none', textAlign:'left' }}>
+            <div style={{ width:38, height:38, borderRadius:10, background: isH ? '#1360d2' : 'linear-gradient(145deg,rgb(21,96,168),#0ea5e9)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, transition:'all 0.18s' }}>
+              <div style={{ color:'#fff', filter:'brightness(10)', display:'flex' }}>{o.icon}</div>
+            </div>
+            <div style={{ flex:1 }}>
+              <span style={{ fontFamily:font, fontSize:13, fontWeight:700, color: isH ? '#1360d2' : '#111838' }}>{o.label}</span>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke={isH ? '#1360d2' : '#b0bcd8'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0 }}><path d="M9 18l6-6-6-6"/></svg>
           </button>
         );
       })}
@@ -568,20 +569,21 @@ function SearchServiceCard({ permit, onRestart }: { permit: { label: string; aut
         </div>
       </div>
 
-      {/* 3 action buttons */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10 }}>
-        {actions.map(a => (
+      {/* 3 action buttons — WhatsApp-style, 2 per row */}
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+        {actions.map((a, idx) => (
           <button key={a.key}
-            style={{ display:'flex', flexDirection:'column', alignItems:'flex-start', gap:10, padding:'16px 16px', borderRadius:14, background:a.bg, border:a.border ?? 'none', color:a.color, fontFamily:font, cursor:'pointer', transition:'all 0.18s', textAlign:'left', boxShadow: a.key==='journey' ? '0 4px 14px rgba(19,96,210,0.28)' : '0 1px 6px rgba(0,0,0,0.05)' }}
-            onMouseEnter={e=>{ const el = e.currentTarget as HTMLButtonElement; el.style.transform='translateY(-2px)'; el.style.boxShadow = a.key==='journey' ? '0 8px 24px rgba(19,96,210,0.38)' : '0 4px 14px rgba(0,0,0,0.1)'; }}
-            onMouseLeave={e=>{ const el = e.currentTarget as HTMLButtonElement; el.style.transform='none'; el.style.boxShadow = a.key==='journey' ? '0 4px 14px rgba(19,96,210,0.28)' : '0 1px 6px rgba(0,0,0,0.05)'; }}>
-            <div style={{ width:36, height:36, borderRadius:10, background: a.key==='journey' ? 'rgba(255,255,255,0.18)' : '#eef4ff', display:'flex', alignItems:'center', justifyContent:'center', color: a.key==='journey' ? '#fff' : '#1360d2' }}>
+            style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*60}ms`, display:'flex', alignItems:'center', gap:14, width:'100%', padding:'12px 16px', borderRadius:12, background: a.key==='journey' ? '#1360d2' : '#fff', border: a.key==='journey' ? 'none' : (a.key==='requests' ? '1.5px solid #1360d2' : '1.5px solid #e2eaf8'), fontFamily:font, cursor:'pointer', transition:'all 0.18s', textAlign:'left', boxShadow: a.key==='journey' ? '0 4px 14px rgba(19,96,210,0.28)' : '0 1px 4px rgba(0,0,0,0.05)' }}
+            onMouseEnter={e=>{ const el = e.currentTarget as HTMLButtonElement; el.style.transform='translateX(3px)'; el.style.boxShadow = a.key==='journey' ? '0 8px 24px rgba(19,96,210,0.38)' : '0 4px 16px rgba(19,96,210,0.12)'; }}
+            onMouseLeave={e=>{ const el = e.currentTarget as HTMLButtonElement; el.style.transform='none'; el.style.boxShadow = a.key==='journey' ? '0 4px 14px rgba(19,96,210,0.28)' : '0 1px 4px rgba(0,0,0,0.05)'; }}>
+            <div style={{ width:38, height:38, borderRadius:10, background: a.key==='journey' ? 'rgba(255,255,255,0.18)' : '#eef4ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, color: a.key==='journey' ? '#fff' : '#1360d2' }}>
               {a.icon}
             </div>
-            <div>
-              <div style={{ fontSize:13, fontWeight:700, color:a.color, marginBottom:3 }}>{a.label}</div>
+            <div style={{ flex:1 }}>
+              <div style={{ fontSize:13, fontWeight:700, color: a.key==='journey' ? '#fff' : (a.key==='requests' ? '#1360d2' : '#111838'), marginBottom:2 }}>{a.label}</div>
               <div style={{ fontSize:11, color: a.key==='journey' ? 'rgba(255,255,255,0.72)' : '#8494a8', lineHeight:1.4 }}>{a.desc}</div>
             </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke={a.key==='journey' ? 'rgba(255,255,255,0.7)' : '#b0bcd8'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink:0 }}><path d="M9 18l6-6-6-6"/></svg>
           </button>
         ))}
       </div>

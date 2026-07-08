@@ -44,42 +44,45 @@ const CARGO_OPTIONS = [
   { key: 'other',     label: 'Other Goods',             color: '#2a6dcc', icon: (<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>) },
 ];
 
-const PERMITS_MAP: Record<string, { label: string; authority: string }[]> = {
+const PERMITS_MAP: Record<string, { label: string; authority: string; prerequisite?: boolean }[]> = {
   'Food Consignment': [
-    { label: 'Register and Access a Food Item', authority: 'Dubai Municipality' },
-    { label: 'Request to Transfer Food Consignment from and to Dubai', authority: 'Dubai Municipality' },
-    { label: 'Release of Importer Food Consignments for Local Market', authority: 'Dubai Municipality' },
-    { label: 'Release of Imported Food Consignments for Re-Export', authority: 'Dubai Municipality' },
-    { label: 'Request for Food Export / Food Health Certificate', authority: 'Dubai Municipality' },
+    { label: 'Product Registration',                                     authority: 'Dubai Municipality', prerequisite: true },
+    { label: 'Register and Access a Food Item',                          authority: 'Dubai Municipality' },
+    { label: 'Request to Transfer Food Consignment from and to Dubai',   authority: 'Dubai Municipality' },
+    { label: 'Release of Importer Food Consignments for Local Market',   authority: 'Dubai Municipality' },
+    { label: 'Request for Food Export / Food Health Certificate',        authority: 'Dubai Municipality' },
   ],
   'Veterinary Consignments': [
-    { label: 'Veterinary Import Permit', authority: 'MOCCAE' },
-    { label: 'Veterinary Health Certificate', authority: 'MOCCAE' },
-    { label: 'Release of Imported Consignments for Re-Export', authority: 'Dubai Municipality' },
+    { label: 'Veterinary Import Permit',                                 authority: 'MOCCAE', prerequisite: true },
+    { label: 'Veterinary Health Certificate',                            authority: 'MOCCAE' },
+    { label: 'Release of Imported Consignments for Re-Export',           authority: 'Dubai Municipality' },
   ],
   'Consumer Goods': [
-    { label: 'Consumer Product Conformity Certificate', authority: 'Dubai Municipality' },
-    { label: 'Release of Importer Consignments for Local Market', authority: 'Dubai Customs' },
+    { label: 'Product Conformity Certificate',                           authority: 'Dubai Municipality', prerequisite: true },
+    { label: 'Release of Importer Consignments for Local Market',        authority: 'Dubai Customs' },
   ],
   'Fire Arms': [
-    { label: 'Firearm Import / Export Permit', authority: 'Dubai Police' },
-    { label: 'Controlled Goods Import Approval', authority: 'Ministry of Economy' },
+    { label: 'Controlled Goods Import Approval',                         authority: 'Ministry of Economy', prerequisite: true },
+    { label: 'Firearm Import / Export Permit',                           authority: 'Dubai Police' },
   ],
   'Chemicals & Hazardous': [
-    { label: 'Hazardous Material Certificate', authority: 'Civil Defence' },
-    { label: 'Dangerous Goods Declaration', authority: 'DCAA' },
+    { label: 'Hazardous Material Safety Assessment',                     authority: 'Civil Defence', prerequisite: true },
+    { label: 'Hazardous Material Certificate',                           authority: 'Civil Defence' },
+    { label: 'Dangerous Goods Declaration',                              authority: 'DCAA' },
   ],
   'Live Animals': [
-    { label: 'Veterinary Health Certificate', authority: 'MOCCAE' },
-    { label: 'CITES Import / Export Permit', authority: 'MOCCAE' },
-    { label: 'Quarantine Clearance Certificate', authority: 'MOCCAE' },
+    { label: 'CITES Import / Export Permit',                             authority: 'MOCCAE', prerequisite: true },
+    { label: 'Veterinary Health Certificate',                            authority: 'MOCCAE' },
+    { label: 'Quarantine Clearance Certificate',                         authority: 'MOCCAE' },
   ],
   'Pharmaceuticals': [
-    { label: 'Pharmaceutical Import Permit', authority: 'DCAA' },
-    { label: 'Health Certificate for Medical Products', authority: 'Dubai Municipality' },
+    { label: 'Product Registration with Health Authority',               authority: 'DCAA', prerequisite: true },
+    { label: 'Pharmaceutical Import Permit',                             authority: 'DCAA' },
+    { label: 'Health Certificate for Medical Products',                  authority: 'Dubai Municipality' },
   ],
   'Other Goods': [
-    { label: 'General Trade Clearance', authority: 'Dubai Customs' },
+    { label: 'Trade Documentation Check',                                authority: 'Dubai Customs' },
+    { label: 'General Trade Clearance',                                  authority: 'Dubai Customs' },
   ],
 };
 
@@ -626,94 +629,84 @@ function SearchResults({ q, onSelect }: { q: string; onSelect: (label: string) =
   );
 }
 
-/* ── Results ── */
-function ResultsSection({ answers, onRestart }: { answers: Record<string,string>; onRestart: () => void }) {
-  const permits = PERMITS_MAP[answers.cargo] ?? [];
-  const grouped = permits.reduce<Record<string,typeof permits>>((acc,p) => { (acc[p.authority]=acc[p.authority]||[]).push(p); return acc; }, {});
+/* ── Unified journey steps: numbered list with prerequisite chips + action buttons ── */
+function DoneWithPrepare({ answers, onRestart }: { answers: Record<string,string>; onRestart: () => void }) {
+  const cargo = answers['cargo'] ?? 'Other Goods';
+  const permits = PERMITS_MAP[cargo] ?? [];
+  const ACTION_BTNS = [
+    { label:'Start Journey', bg:'#1360d2', color:'#fff', border:'none', shadow:'0 2px 8px rgba(19,96,210,0.22)',
+      icon:<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> },
+    { label:'View Requests', bg:'#fff', color:'#1360d2', border:'1.5px solid #1360d2', shadow:'none',
+      icon:<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg> },
+    { label:'Service Info', bg:'#fff', color:'#5a6478', border:'1.5px solid #e2eaf8', shadow:'none',
+      icon:<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg> },
+  ];
   return (
-    <div style={{ animation:'slideUp 0.35s ease' }}>
-      <div style={{ display:'flex', alignItems:'center', gap:16, background:'linear-gradient(135deg,#eef4ff,#e8f0fb)', border:'1px solid #dce8ff', borderRadius:16, padding:'18px 22px', marginBottom:18, boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
-        <div style={{ textAlign:'center', minWidth:52 }}>
-          <p style={{ fontFamily:font, fontSize:38, fontWeight:800, color:'#1360d2', margin:0, lineHeight:1 }}>{permits.length}</p>
-          <p style={{ fontFamily:font, fontSize:11, color:'#697498', margin:'2px 0 0', textTransform:'uppercase', letterSpacing:'0.6px' }}>Services</p>
+    <div style={{ display:'flex', flexDirection:'column', gap:10, animation:'msgIn 0.35s ease' }}>
+      {/* Header */}
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', background:'linear-gradient(135deg,#eef4ff,#e8f0fb)', border:'1px solid #dce8ff', borderRadius:14, padding:'14px 18px', boxShadow:'0 2px 10px rgba(19,96,210,0.07)' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+          <div style={{ textAlign:'center', minWidth:38 }}>
+            <p style={{ fontFamily:font, fontSize:28, fontWeight:800, color:'#1360d2', margin:0, lineHeight:1 }}>{permits.length}</p>
+            <p style={{ fontFamily:font, fontSize:10, color:'#697498', margin:'2px 0 0', textTransform:'uppercase', letterSpacing:'0.5px' }}>Steps</p>
+          </div>
+          <div style={{ width:1, height:32, background:'#c8d8ee', flexShrink:0 }} />
+          <div>
+            <p style={{ fontFamily:font, fontSize:14, fontWeight:700, color:'#111838', margin:'0 0 2px' }}>Your permit journey for {cargo}</p>
+            <p style={{ fontFamily:font, fontSize:12, color:'#697498', margin:0 }}>Complete each step in order to clear your shipment</p>
+          </div>
         </div>
-        <div style={{ width:1, height:40, background:'#c8d8ee', flexShrink:0 }} />
-        <div>
-          <p style={{ fontFamily:font, fontSize:15, fontWeight:600, color:'#111838', margin:'0 0 3px' }}>{permits.length} permit{permits.length!==1?'s':''} found for your shipment</p>
-          <p style={{ fontFamily:font, fontSize:13, color:'#697498', margin:0 }}>Review each service and start your application</p>
-        </div>
-        <button onClick={onRestart} style={{ marginLeft:'auto', flexShrink:0, background:'#fff', border:'1px solid #dce8ff', borderRadius:20, padding:'8px 16px', fontFamily:font, fontSize:13, color:'#1360d2', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:5, boxShadow:'0 1px 4px rgba(0,0,0,0.05)', transition:'all 0.18s' }}
+        <button onClick={onRestart} style={{ flexShrink:0, background:'#fff', border:'1px solid #dce8ff', borderRadius:20, padding:'6px 14px', fontFamily:font, fontSize:12, color:'#1360d2', fontWeight:500, cursor:'pointer', display:'flex', alignItems:'center', gap:4, transition:'all 0.18s' }}
           onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
           onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#fff'}>
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#1360d2" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
           Start over
         </button>
       </div>
-      {Object.entries(grouped).map(([auth, items]) => {
-        const s = authorityStyle(auth);
+
+      {/* Numbered step rows */}
+      {permits.map((p, idx) => {
+        const s = authorityStyle(p.authority);
         return (
-          <div key={auth} style={{ marginBottom:14 }}>
-            <div style={{ display:'inline-flex', alignItems:'center', gap:6, background:s.bg, border:`1px solid ${s.border}`, borderRadius:20, padding:'5px 12px 5px 9px', marginBottom:8 }}>
-              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke={s.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              <span style={{ fontFamily:font, fontSize:12, fontWeight:700, color:s.text }}>{auth}</span>
+          <div key={idx} style={{ display:'flex', gap:12, alignItems:'stretch', animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*60}ms` }}>
+            {/* Step number + connector */}
+            <div style={{ display:'flex', flexDirection:'column', alignItems:'center', flexShrink:0, paddingTop:14 }}>
+              <div style={{ width:30, height:30, borderRadius:'50%', background:'#1360d2', color:'#fff', fontFamily:font, fontSize:13, fontWeight:700, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>{idx+1}</div>
+              {idx < permits.length-1 && <div style={{ width:2, flex:1, minHeight:12, background:'#dde8f8', marginTop:4 }} />}
             </div>
-            {items.map((p, i) => (
-              <div key={i} style={{ display:'flex', alignItems:'center', gap:12, background:'#fff', border:'1px solid #eef0f6', borderRadius:12, padding:'11px 14px', marginBottom:7, boxShadow:'0 1px 6px rgba(0,0,0,0.04)' }}>
-                <div style={{ width:34, height:34, borderRadius:9, background:'#eaf1ff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  <IntegratedClearanceIcon size={18} />
+            {/* Card */}
+            <div style={{ flex:1, background:'#fff', border:'1px solid #eef0f6', borderRadius:12, padding:'11px 14px', boxShadow:'0 1px 6px rgba(0,0,0,0.04)', display:'flex', alignItems:'center', gap:12 }}>
+              {/* Left: name + badge + prerequisite */}
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', marginBottom:5 }}>
+                  <span style={{ fontFamily:font, fontSize:13, fontWeight:700, color:'#111838' }}>{p.label}</span>
+                  {p.prerequisite && (
+                    <span style={{ display:'inline-flex', alignItems:'center', gap:3, background:'#fff8e6', border:'1px solid #f5c842', borderRadius:20, padding:'2px 8px', fontSize:10, fontWeight:700, color:'#a16400', whiteSpace:'nowrap' }}>
+                      <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      Prerequisite
+                    </span>
+                  )}
                 </div>
-                <span style={{ flex:1, fontFamily:font, fontSize:13, fontWeight:600, color:'#111838' }}>{p.label}</span>
-                <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
-                  {[
-                    { label:'Start Journey', bg:'#1360d2', color:'#fff', border:'none', shadow:'0 2px 8px rgba(19,96,210,0.25)',
-                      icon:<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> },
-                    { label:'View Requests', bg:'#fff', color:'#1360d2', border:'1.5px solid #1360d2', shadow:'none',
-                      icon:<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg> },
-                    { label:'Service Info', bg:'#fff', color:'#5a6478', border:'1.5px solid #e2eaf8', shadow:'none',
-                      icon:<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 12v4"/></svg> },
-                  ].map(a => (
-                    <button key={a.label}
-                      style={{ display:'flex', alignItems:'center', gap:5, padding:'5px 10px', borderRadius:6, background:a.bg, border:a.border, color:a.color, fontFamily:font, fontSize:11, fontWeight:600, cursor:'pointer', whiteSpace:'nowrap', boxShadow:a.shadow, transition:'opacity 0.15s' }}
-                      onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.opacity='0.8'}
-                      onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.opacity='1'}>
-                      {a.icon}{a.label}
-                    </button>
-                  ))}
-                </div>
+                <span style={{ display:'inline-flex', alignItems:'center', gap:4, background:s.bg, border:`1px solid ${s.border}`, borderRadius:20, padding:'2px 9px', fontSize:10, fontWeight:700, color:s.text }}>
+                  <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke={s.text} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  {p.authority}
+                </span>
               </div>
-            ))}
+              {/* Right: action buttons */}
+              <div style={{ display:'flex', gap:6, flexShrink:0 }}>
+                {ACTION_BTNS.map(a => (
+                  <button key={a.label}
+                    style={{ display:'flex', alignItems:'center', gap:4, padding:'5px 10px', borderRadius:6, background:a.bg, border:a.border, color:a.color, fontFamily:font, fontSize:11, fontWeight:600, cursor:'pointer', whiteSpace:'nowrap', boxShadow:a.shadow, transition:'opacity 0.15s' }}
+                    onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.opacity='0.8'}
+                    onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.opacity='1'}>
+                    {a.icon}{a.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         );
       })}
-    </div>
-  );
-}
-
-/* ── Done state: Prepare in Advance first, then optional service list ── */
-function DoneWithPrepare({ answers, onRestart }: { answers: Record<string,string>; onRestart: () => void }) {
-  const [showServices, setShowServices] = useState(false);
-  const cargo = answers['cargo'] ?? 'Other Goods';
-  const prepareAnswers = { 'p-cargo': cargo };
-  return (
-    <div style={{ display:'flex', flexDirection:'column', gap:14, animation:'msgIn 0.35s ease' }}>
-      <AiMessage text="Before you start, here's what you may need to prepare in advance." isNew={false} />
-      <PrepareInfoPanel
-        answers={prepareAnswers}
-        onKnow={() => setShowServices(true)}
-        onShowSteps={() => {}}
-        onStart={() => setShowServices(true)}
-      />
-      {!showServices && (
-        <button
-          onClick={() => setShowServices(true)}
-          style={{ alignSelf:'flex-start', marginLeft:44, background:'#fff', border:'1.5px solid #1360d2', borderRadius:8, padding:'9px 20px', fontFamily:font, fontSize:13, fontWeight:600, color:'#1360d2', cursor:'pointer', display:'flex', alignItems:'center', gap:6, transition:'all 0.18s' }}
-          onMouseEnter={e=>(e.currentTarget as HTMLButtonElement).style.background='#eef4ff'}
-          onMouseLeave={e=>(e.currentTarget as HTMLButtonElement).style.background='#fff'}>
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          Show me the services
-        </button>
-      )}
-      {showServices && <ResultsSection answers={answers} onRestart={onRestart} />}
     </div>
   );
 }

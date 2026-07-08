@@ -564,8 +564,8 @@ function SearchServiceCard({ permit, onRestart }: { permit: { label: string; aut
         </div>
       </div>
 
-      {/* 3 action buttons — WhatsApp-style, 2 per row */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+      {/* 3 action buttons — all in one row */}
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr auto', gap:8 }}>
         {actions.map((a, idx) => (
           <button key={a.key}
             style={{ animation:`chipIn 0.3s cubic-bezier(0.34,1.4,0.64,1) both`, animationDelay:`${idx*60}ms`, display:'flex', alignItems:'center', gap:14, width:'100%', padding:'12px 16px', borderRadius:12, background: a.key==='journey' ? '#1360d2' : '#fff', border: a.key==='journey' ? 'none' : (a.key==='requests' ? '1.5px solid #1360d2' : '1.5px solid #e2eaf8'), fontFamily:font, cursor:'pointer', transition:'all 0.18s', textAlign:'left', boxShadow: a.key==='journey' ? '0 4px 14px rgba(19,96,210,0.28)' : '0 1px 4px rgba(0,0,0,0.05)' }}
